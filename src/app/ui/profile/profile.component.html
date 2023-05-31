@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <div class="container" *ngIf="userLogged|async as user">
+        <div>
+            <table>
+                <tr>
+                    <td rowspan="2"><img style="border-radius: 100%;" src="{{user.photoURL}}"></td>
+                    <td>{{ user.displayName }}</td>
+                </tr>
+                <tr>
+                    <td>{{user.email}}</td>
+                </tr>
+            </table>
+
+            <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
+            <button class="btn btn-info" (click)="addProperty()">Agregar propiedad</button>
+        </div>
+    </div>
+</body>
+</html>

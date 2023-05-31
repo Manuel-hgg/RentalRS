@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="card text-center">
+        <div class="card-header">
+            <b>Register</b>
+        </div>
+        <div class="card-body p-4">
+            <label style="float: left;" for="name">Name</label>
+            <input class="form-control m-2" type="text" placeholder="Ingrese su nombre" [(ngModel)]="user.name">
+
+            <label style="float: left;" for="email">Email</label>
+            <input class="form-control m-2" type="email" placeholder="Ingrese su email" [(ngModel)]="user.email">
+
+            <label style="float: left;" for="password">Password</label>
+            <input class="form-control m-2" type="password" placeholder="Ingrese su password" [(ngModel)]="user.password">
+            
+            <button class="btn btn-primary btn-block m-2" (click)="register()">Registrarme</button>
+        </div>
+    </div>
+</div>

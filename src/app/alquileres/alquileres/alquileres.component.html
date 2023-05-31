@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alquileres</title>
+</head>
+<body>
+    <div class="container">
+    <h1 class="text-center text-info">Alquileres Vacacionales</h1>
+    <ul class="list-group" *ngIf="listaAlquileres !== undefined">
+        <li *ngFor="let i of listaAlquileres" class="list-group-item border border-info rounded mb-2" (click)="showProperty(i.id)">
+            <h4>{{i.titulo}}</h4>
+            <p class="fw-bold">{{i.precio}}€ / noche</p>
+            <p><b>{{i.autCommunity}}</b> - {{i.metrosCuadrados}}m<sup>2</sup> - {{i.numHabitaciones}} hab.</p>
+            <p>{{i.descripcion}}</p>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

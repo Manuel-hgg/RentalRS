@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Propiedad</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Añadir propiedad</h1>
+    
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="house" [(ngModel)]="tipoSeleccionado" value="house">
+            <label class="form-check-label" for="house">Casa</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="floor" [(ngModel)]="tipoSeleccionado" value="floor">
+            <label class="form-check-label" for="floor">Piso</label>
+        </div>
+        
+        <form>
+            <div class="form-group mb-3">
+                <label for="titulo">Titulo:</label>
+                <input type="text" class="form-control" name="titulo" [(ngModel)]="titulo" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="descripcion">Descripcion:</label>
+                <input type="text" class="form-control" name="descripcion" [(ngModel)]="descripcion" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="autCommunity">Comunidad Autonoma:</label>
+                <select class="form-select" name="community" [(ngModel)]="autCommunity">
+                    <option *ngFor="let community of autCommunitys" [ngValue]="community" >{{community}}</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="municipio">Municipio:</label>
+                <input type="text" class="form-control" name="municipio" [(ngModel)]="municipio" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="calle">Calle:</label>
+                <input type="text" class="form-control" name="calle" [(ngModel)]="calle" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="numHab">Nº Habitaciones:</label>
+                <input type="number" class="form-control" name="numHab" [(ngModel)]="numHabitaciones" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="numBanios">Nº Baños:</label>
+                <input type="text" class="form-control" name="numBanios" [(ngModel)]="numBanios" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="numPisos">Nº Pisos:</label>
+                <input type="number" class="form-control" name="numPisos" [(ngModel)]="numPisos" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="numTerrazas">Nº Terrazas:</label>
+                <input type="number" class="form-control" name="numTerrazas" [(ngModel)]="numTerrazas" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="metros">Metros cuadrados:</label>
+                <input type="number" class="form-control" name="metros" [(ngModel)]="metrosCuadrados" required>
+            </div>
+
+            <label for="garaje">Garaje:</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="garaje" id="siGaraje" [(ngModel)]="garaje" value="true">
+                <label class="form-check-label" for="siGaraje">Si</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="garaje" id="noGaraje" [(ngModel)]="garaje" value="false">
+                <label class="form-check-label" for="noGaraje">No</label>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="precio">Precio:</label>
+                <input type="number" class="form-control" name="precio" [(ngModel)]="precio">
+            </div>
+
+            <div class="form-group mb-3" *ngIf="tipoSeleccionado === 'house'">
+                <label for="exterior">Exterior:</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="exterior" id="siExterior" [(ngModel)]="exterior" value="true">
+                    <label class="form-check-label" for="siExterior">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="exterior" id="noExterior" [(ngModel)]="exterior" value="false">
+                    <label class="form-check-label" for="noExterior">No</label>
+                </div>
+            </div>
+
+            <div *ngIf="tipoSeleccionado === 'piso'">
+                <div class="form-group mb-3">
+                    <label for="planta">Planta:</label>
+                    <input type="number" class="form-control" name="planta" [(ngModel)]="planta">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" (click)="addProperty()">Guardar</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show</title>
+</head>
+<body>
+    <div class="container">
+        <div *ngIf="property !== undefined">
+            <div *ngIf="true">
+                <h1>{{property.titulo}}</h1>
+                <p>{{property.precio}}€ / noche</p>
+                <p>{{property.autCommunity}} - {{property.municipio}} - {{property.metrosCuadrados}}m<sup>2</sup></p>
+                <p>Nº Hab: {{property.numHabitaciones}}, Nº Baños: {{property.numBanios}}, Terrazas: {{property.numTerrazas}}</p>
+                <h4>Descripción</h4>
+                <p>{{property.descripcion}}</p>
+                <p *ngIf="property.garaje">Garage: Disponible</p>
+                <p *ngIf="!property.garaje">Garaje: No disponible</p>
+                </div>
+            </div>
+        <div *ngIf="property === undefined">
+            <h1>Propiedad no encontrada</h1>
+        </div>
+    </div>
+</body>
+</html>
