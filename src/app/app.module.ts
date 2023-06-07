@@ -6,7 +6,7 @@ import { AngularFireModule } from '@angular/fire/compat'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AlquileresComponent } from './alquileres/alquileres/alquileres.component';
+import { RentalsComponent } from './ui/rentals/rentals.component';
 import { NavBarComponent } from './ui/nav-bar/nav-bar.component';
 import { NavbarFooterComponent } from './ui/navbar-footer/navbar-footer.component';
 import { AboutComponent } from './info/about/about.component';
@@ -24,7 +24,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
   declarations: [
     AppComponent,
     HomeComponent,
-    AlquileresComponent,
+    RentalsComponent,
     NavBarComponent,
     NavbarFooterComponent,
     AboutComponent,

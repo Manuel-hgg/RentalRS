@@ -9,38 +9,40 @@ import {  AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent {
 
-  usuario = {
+  user = {
     email: '',
     password: ''
   }
 
-  /**
-   *
-   */
   constructor(private authService: AuthService,
               private router: Router) {
     
   }
 
+  /**
+   * Create a const with the data of user and log the user with the data received
+   * Then navigate to the profile
+   */
   login() {
-    const {email, password} = this.usuario;
+    const {email, password} = this.user;
     this.authService.login(email, password);
 
-    this.router.navigate(['profile']);
+    this.router.navigate(['/profile']);
   }
 
+  /**
+   * Login the user with the google account
+   * Then navigate to the profile
+   */
   loginWithGoogle() {
     this.authService.loginWithGoogle();
 
-    this.router.navigate(['profile']);
+    this.router.navigate(['/profile']);
   }
 
-  getUserLogged() {
-    this.authService.getUserLogged().subscribe(res => {
-      console.log(res?.email);
-    });
-  }
-
+  /**
+   * Logout the user 
+   */
   logout() {
     this.authService.logout();
   }

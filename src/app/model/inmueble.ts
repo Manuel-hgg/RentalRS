@@ -1,45 +1,53 @@
 export class Inmueble {
-    id: number;
+    idProperty: string;
     autCommunity: string;
-    municipio: string;
-    calle: string;
-    titulo: string;
-    descripcion: string;
-    numHabitaciones: number;
-    numBanios: number;
-    numPisos: number;
-    numTerrazas: number;
-    metrosCuadrados: number;
-    garaje: boolean;
-    precio: number;
+    municipality: string;
+    street: string;
+    title: string;
+    description: string;
+    numRooms: number;
+    numBathrooms: number;
+    numFloors: number;
+    numTerraces: number;
+    squareMeter: number;
+    garage: boolean;
+    price: number;
     estrellas!: number;
+    owner: string;
+    scores: number[];
+    type: string;
     
-    constructor(id: number,
+    constructor(idProperty: string,
                 autCommunity: string,
-                municipio: string,
-                calle: string,
-                titulo: string,
-                descripcion: string,
-                numHabitaciones: number,
-                numBanios: number,
-                numPisos: number,
-                numTerrazas: number,
-                metrosCuadrados: number,
-                garaje: boolean,
-                precio: number) 
+                municipality: string,
+                street: string,
+                title: string,
+                description: string,
+                numRooms: number,
+                numBathrooms: number,
+                numFloors: number,
+                numTerraces: number,
+                squareMeter: number,
+                garage: boolean,
+                price: number,
+                owner: string, 
+                type: string) 
     {
-        this.id = id;
+        this.idProperty = idProperty,
         this.autCommunity = autCommunity;
-        this.municipio = municipio;
-        this.calle = calle;
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.numHabitaciones = numHabitaciones;
-        this.numBanios = numBanios;
-        this.numPisos = numPisos;
-        this.numTerrazas = numTerrazas;
-        this.metrosCuadrados = metrosCuadrados;
-        this.garaje = garaje;
-        this.precio = precio;
+        this.municipality = municipality;
+        this.street = street;
+        this.title = title;
+        this.description = description;
+        this.numRooms = numRooms;
+        this.numBathrooms = numBathrooms;
+        this.numFloors = numFloors;
+        this.numTerraces = numTerraces;
+        this.squareMeter = squareMeter;
+        this.garage = garage;
+        this.price = price;
+        this.owner = owner;
+        this.scores = [];
+        this.type = type;
     }
 }

@@ -9,9 +9,12 @@
 <body>
     <div class="container" *ngIf="userLogged|async as user">
         <div>
-            <table>
+            <table style="margin-bottom: 10px;">
                 <tr>
-                    <td rowspan="2"><img style="border-radius: 100%;" src="{{user.photoURL}}"></td>
+                    <td rowspan="2">
+                        <img style="border-radius: 100%;" src="{{user.photoURL}}" *ngIf="user.photoURL">
+                        <img style="border-radius: 100%; width: 96px;" src="/assets/images/icon_no_photo.png" *ngIf="!user.photoURL">
+                    </td>
                     <td>{{ user.displayName }}</td>
                 </tr>
                 <tr>
@@ -19,7 +22,7 @@
                 </tr>
             </table>
 
-            <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
+            <button class="btn btn-danger" style="margin-right: 10px;" (click)="logout()">Cerrar Sesión</button>
             <button class="btn btn-info" (click)="addProperty()">Agregar propiedad</button>
         </div>
     </div>

@@ -26,14 +26,23 @@ export class ProfileComponent {
           this.router.navigate(['/login']);
         }
       });
-    }, 3000);    
+    }, 5000);    
   }
 
+  /**
+   * Calls the logout() of the AuthService to logout the actual user
+   * Then navigate to login component
+   */
   logout(): void {
     this.authService.logout();
+
+    this.router.navigate(['/login']);
   }
 
+  /**
+   * Navigate to add view 
+   */
   addProperty(): void {
-    this.router.navigate(['/add']);
+    this.router.navigate(['/property/add']);
   }
 }

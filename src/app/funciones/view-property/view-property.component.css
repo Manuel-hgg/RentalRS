@@ -1,0 +1,20 @@
+.property-details {
+    margin-bottom: 20px;
+}
+
+.property-details h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.property-details p {
+    margin-bottom: 10px;
+}
+
+.property-buttons {
+    margin-top: 20px;
+}
+
+.property-buttons button {
+    margin-right: 10px;
+}

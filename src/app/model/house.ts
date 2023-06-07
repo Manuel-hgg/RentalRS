@@ -2,24 +2,26 @@ import { Inmueble } from "./inmueble";
 
 export class House extends Inmueble {
 
-    exterior: boolean;
+    outside: boolean;
 
-    constructor(id: number,
+    constructor(idProperty: string,
                 autCommunity: string,
-                municipio: string,
-                calle: string,
-                titulo: string,
-                descripcion: string,
-                numHabitaciones: number,
-                numBanios: number,
-                numPisos: number,
-                numTerrazas: number,
-                metrosCuadrados: number,
-                garaje: boolean,
-                precio: number,
-                exterior: boolean) 
+                municipality: string,
+                street: string,
+                title: string,
+                description: string,
+                numRooms: number,
+                numBathrooms: number,
+                numFloors: number,
+                numTerraces: number,
+                squareMeter: number,
+                garage: boolean,
+                price: number,
+                outside: boolean,
+                owner: string,
+                type: string) 
     {
-        super(id,autCommunity, municipio, calle,titulo, descripcion, numHabitaciones, numBanios, numPisos, numTerrazas, metrosCuadrados, garaje, precio);
-        this.exterior = exterior;
+        super(idProperty, autCommunity, municipality, street, title, description, numRooms, numBathrooms, numFloors, numTerraces, squareMeter, garage, price, owner, type);
+        this.outside = outside;
     }
 }

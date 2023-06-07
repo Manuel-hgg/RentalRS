@@ -14,7 +14,8 @@
             <div class="mb-3">
                 <label for="ubicacion" class="form-label">Elige tu destino: </label>
                 <select class="form-select" name="destino" id="destino" [(ngModel)]="communitySelected">
-                    <option *ngFor="let community of allCommunities" [ngValue]="community">{{community}}</option>
+                    <option value="All">Todas las ubicaciones</option>
+                    <option *ngFor="let c of allCommunities" [ngValue]="c.community">{{c.community}}</option>
                 </select>
                 <button class="btn btn-info" (click)="searchRentals()">Buscar</button>
             </div>

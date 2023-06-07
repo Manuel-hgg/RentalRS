@@ -20,6 +20,9 @@ export class RegisterComponent {
     
   }
 
+  /**
+   * Register the user with the name, email and password of the form
+   */
   register(): void {
     const {name, email, password} = this.user;
 
@@ -30,7 +33,27 @@ export class RegisterComponent {
     }
   }
 
-  checkData(name: string, email: string, password: string): boolean {
+  /**
+   * Register the user with the google account
+   * Then navigate to profile
+   */
+  registerWithGoogle() {
+    this.authService.loginWithGoogle();
+
+    this.router.navigate(['profile']);
+  }
+
+  /**
+   * Checks if the user entered all the data in the form
+   * If the user entered all the data it returns true
+   * If the user did not enter all the data, it returns false
+   * 
+   * @param name, the name of the user
+   * @param email, the email of the user
+   * @param password, the password of the user
+   * @returns True if it get all data, false if it not get all the data
+   */
+  private checkData(name: string, email: string, password: string): boolean {
     if (name !== '' && email !== '' && password !== '')
       return true;
     

@@ -9,17 +9,33 @@
 <body>
     <div class="container">
         <div *ngIf="property !== undefined">
-            <div *ngIf="true">
-                <h1>{{property.titulo}}</h1>
-                <p>{{property.precio}}€ / noche</p>
-                <p>{{property.autCommunity}} - {{property.municipio}} - {{property.metrosCuadrados}}m<sup>2</sup></p>
-                <p>Nº Hab: {{property.numHabitaciones}}, Nº Baños: {{property.numBanios}}, Terrazas: {{property.numTerrazas}}</p>
+            <div class="property-details">
+                <h1>{{property.title}}</h1>
+                <p>{{property.price}}€ / noche</p>
+                <p>{{property.autCommunity}} - {{property.municipality}} - {{property.squareMeter}}m<sup>2</sup></p>
+                <p>Nº Hab: {{property.numRooms}}, Nº Baños: {{property.numBathrooms}}, Terrazas: {{property.numTerraces}}</p>
                 <h4>Descripción</h4>
-                <p>{{property.descripcion}}</p>
-                <p *ngIf="property.garaje">Garage: Disponible</p>
-                <p *ngIf="!property.garaje">Garaje: No disponible</p>
-                </div>
+                <p>{{property.description}}</p>
+                <p *ngIf="property.garage">Garaje: Disponible</p>
+                <p *ngIf="!property.garage">Garaje: No disponible</p>
+                <p>Puntuacion: {{ scoreProperty }}</p>
             </div>
+            <div>
+                <h3>Dar puntuacion: </h3>
+                <select>
+                    <option value="1">1 estrella</option>
+                    <option value="2">2 estrellas</option>
+                    <option value="3">3 estrellas</option>
+                    <option value="4">4 estrellas</option>
+                    <option value="5">5 estrellas</option>
+                </select>
+                <button>Puntuar</button>
+            </div>
+            <div class="property-buttons">
+                <button class="btn btn-primary" (click)="updateProperty()">Editar</button>
+                <button class="btn btn-danger" (click)="deleteProperty()">Eliminar</button>
+            </div>
+        </div>
         <div *ngIf="property === undefined">
             <h1>Propiedad no encontrada</h1>
         </div>
