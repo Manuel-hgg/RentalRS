@@ -36,8 +36,14 @@
             </div>
             <div class="form-group mb-3">
                 <label for="autCommunity">Comunidad Autonoma:</label>
-                <select class="form-select" name="community" [(ngModel)]="autCommunity">
+                <select class="form-select" name="community" [(ngModel)]="autCommunity" (change)="loadProvinces()">
                     <option *ngFor="let c of allComunities" [ngValue]="c.community">{{ c.community }}</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="province">Provincia: </label>
+                <select class="form-select" name="province" [(ngModel)]="province">
+                    <option *ngFor="let province of allProvinces" [ngValue]="province">{{ province }}</option>
                 </select>
             </div>
             <div class="form-group mb-3">

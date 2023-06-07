@@ -1,6 +1,7 @@
 export class Inmueble {
     idProperty: string;
     autCommunity: string;
+    province: string;
     municipality: string;
     street: string;
     title: string;
@@ -19,6 +20,7 @@ export class Inmueble {
     
     constructor(idProperty: string,
                 autCommunity: string,
+                province: string,
                 municipality: string,
                 street: string,
                 title: string,
@@ -35,6 +37,7 @@ export class Inmueble {
     {
         this.idProperty = idProperty,
         this.autCommunity = autCommunity;
+        this.province = province;
         this.municipality = municipality;
         this.street = street;
         this.title = title;

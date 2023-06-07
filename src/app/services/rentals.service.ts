@@ -41,11 +41,21 @@ export class RentalsService {
     return locations$ as Observable<Location[]>;
   }
 
+  getProvincesByCommunity(community: string): Observable<Location[]> {
+    const locationsRef = collection(this.firestore, 'locations');
+
+    const locationsQuery = query(locationsRef, where('community', '==', community));
+
+    const locations$ = collectionData(locationsQuery, { idField: 'id' });
+
+    return locations$ as Observable<Location[]>;
+  }
+
   /**
-   * Retrieves rentals (houses and floors) based on the specified community.
+   * Retrieves rentals (houses and floors) based on the specified community
    *
-   * @param community, The community name to filter rentals by.
-   * @returns An Observable emitting an array of rentals (houses or floors).
+   * @param community, The community name to filter rentals by
+   * @returns An Observable emitting an array of rentals (houses or floors)
    */
   getRentalsByCommunity(community: string): Observable<(House | Floor)[]> {
     const housesRef = collection(this.firestore, 'houses');
@@ -63,27 +73,27 @@ export class RentalsService {
   }
 
   /**
-   * Adds a new house to the Firestore 'houses' collection.
+   * Adds a new house to the Firestore 'houses' collection
    *
-   * @param autCommunity, The autonomous community of the house.
-   * @param municipality, The municipality of the house.
-   * @param street, The street address of the house.
-   * @param title, The title or name of the house.
-   * @param desc, The description of the house.
-   * @param numRooms, The number of rooms in the house.
-   * @param numBathrooms, The number of bathrooms in the house.
-   * @param numFloors, The number of floors in the house.
-   * @param numTerraces, The number of terraces in the house.
-   * @param squareMeter, The total area of the house in square meters.
-   * @param garage, A boolean indicating if the house has a garage.
-   * @param price, The price of the house.
-   * @param outside, A boolean indicating if the house is outside.
-   * @param owner, The owner of the house.
-   * @returns A Promise that resolves with the document reference of the newly added house.
+   * @param autCommunity, The autonomous community of the house
+   * @param municipality, The municipality of the house
+   * @param street, The street address of the house
+   * @param title, The title or name of the house
+   * @param desc, The description of the house
+   * @param numRooms, The number of rooms in the house
+   * @param numBathrooms, The number of bathrooms in the house
+   * @param numFloors, The number of floors in the house
+   * @param numTerraces, The number of terraces in the house
+   * @param squareMeter, The total area of the house in square meters
+   * @param garage, A boolean indicating if the house has a garage
+   * @param price, The price of the house
+   * @param outside, A boolean indicating if the house is outside
+   * @param owner, The owner of the house
+   * @returns A Promise that resolves with the document reference of the newly added house
    */
-  async addHouse(autCommunity: string, municipality: string, street: string, title: string, desc: string, numRooms: number, numBathrooms: number, numFloors: number, numTerraces: number, squareMeter: number, garage: boolean, price: number, outside: boolean, owner: string) {
+  async addHouse(autCommunity: string, province:string, municipality: string, street: string, title: string, desc: string, numRooms: number, numBathrooms: number, numFloors: number, numTerraces: number, squareMeter: number, garage: boolean, price: number, outside: boolean, owner: string) {
     let houseToAd: House;
-    houseToAd = new House('', autCommunity, municipality, street, title, desc, numRooms, numBathrooms, numFloors, numTerraces, squareMeter, garage, price, outside, owner, 'house');
+    houseToAd = new House('', autCommunity, province, municipality, street, title, desc, numRooms, numBathrooms, numFloors, numTerraces, squareMeter, garage, price, outside, owner, 'house');
     const placeRef = collection(this.firestore, 'houses');
     const data = this.toObject(houseToAd);
 
@@ -97,27 +107,27 @@ export class RentalsService {
   }
 
   /**
-   * Adds a new floor to the Firestore 'floors' collection.
+   * Adds a new floor to the Firestore 'floors' collection
    *
-   * @param autCommunity, The autonomous community of the floor.
-   * @param municipality, The municipality of the floor.
-   * @param street, The street address of the floor.
-   * @param title, The title or name of the floor.
-   * @param desc, The description of the floor.
-   * @param numRooms, The number of rooms in the floor.
-   * @param numBathrooms, The number of bathrooms in the floor.
-   * @param numFloors, The number of floors in the building.
-   * @param numTerraces, The number of terraces in the floor.
-   * @param squareMeter, The total area of the floor in square meters.
-   * @param garage, A boolean indicating if the floor has a garage.
-   * @param price, The price of the floor.
-   * @param floor, The floor number of the floor.
-   * @param owner, The owner of the floor.
-   * @returns A Promise that resolves with the ID of the newly added floor.
+   * @param autCommunity, The autonomous community of the floor
+   * @param municipality, The municipality of the floor
+   * @param street, The street address of the floor
+   * @param title, The title or name of the floor
+   * @param desc, The description of the floor
+   * @param numRooms, The number of rooms in the floor
+   * @param numBathrooms, The number of bathrooms in the floor
+   * @param numFloors, The number of floors in the building
+   * @param numTerraces, The number of terraces in the floor
+   * @param squareMeter, The total area of the floor in square meters
+   * @param garage, A boolean indicating if the floor has a garage
+   * @param price, The price of the floor
+   * @param floor, The floor number of the floor
+   * @param owner, The owner of the floor
+   * @returns A Promise that resolves with the ID of the newly added floor
    */
-  async addFloor(autCommunity: string, municipality: string, street: string, title: string, desc: string, numRooms: number, numBathrooms: number, numFloors: number, numTerraces: number, squareMeter: number, garage: boolean, price: number, floor: number, owner: string) {
+  async addFloor(autCommunity: string, province: string, municipality: string, street: string, title: string, desc: string, numRooms: number, numBathrooms: number, numFloors: number, numTerraces: number, squareMeter: number, garage: boolean, price: number, floor: number, owner: string) {
     let floorToAd: Floor;
-    floorToAd = new Floor('', autCommunity, municipality, street, title, desc, numRooms, numBathrooms, numFloors, numTerraces, squareMeter, garage, price, floor, owner, 'floor');
+    floorToAd = new Floor('', autCommunity, province, municipality, street, title, desc, numRooms, numBathrooms, numFloors, numTerraces, squareMeter, garage, price, floor, owner, 'floor');
 
     const placeRef = collection(this.firestore, 'floors');
     const data = this.toObject(floorToAd);
@@ -132,10 +142,10 @@ export class RentalsService {
   }
 
   /**
-   * Retrieves a property (house or floor) from Firestore based on its ID.
+   * Retrieves a property (house or floor) from Firestore based on its ID
    *
-   * @param id, The ID of the property to retrieve.
-   * @returns An Observable that emits the retrieved property (house or floor).
+   * @param id, The ID of the property to retrieve
+   * @returns An Observable that emits the retrieved property (house or floor)
    */
   getPropertyById(id: string): Observable<House | Floor> {
     const houseRef = doc(this.firestore, 'houses', id);
@@ -175,10 +185,10 @@ export class RentalsService {
   }
 
   /**
-   * Deletes a property (house or floor) with the provided ID.
+   * Deletes a property (house or floor) with the provided ID
    *
-   * @param id, The ID of the property to delete.
-   * @returns A Promise that resolves when the property is successfully deleted.
+   * @param id, The ID of the property to delete
+   * @returns A Promise that resolves when the property is successfully deleted
    */
   async deleteProperty(id: string) {
     const housesRef = doc(this.firestore, 'houses', id);
@@ -194,10 +204,10 @@ export class RentalsService {
   }
 
   /**
-   * Converts an object to a flat object by copying its properties.
+   * Converts an object to a flat object by copying its properties
    *
-   * @param object, The object to be converted.
-   * @returns A flat object with copied properties from the original object.
+   * @param object, The object to be converted
+   * @returns A flat object with copied properties from the original object
    */
   private toObject(object: any): any {
     const properties = Object.getOwnPropertyNames(object);

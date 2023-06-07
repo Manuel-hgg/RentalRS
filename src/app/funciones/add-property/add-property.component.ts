@@ -16,6 +16,7 @@ export class AddPropertyComponent {
   tipoSeleccionado: string = 'house';
 
   autCommunity!: string;
+  province!: string;
   municipality!: string;
   street!: string;
   title!: string;
@@ -33,6 +34,7 @@ export class AddPropertyComponent {
   scores!: number[];
 
   allComunities!: Location[];
+  allProvinces!: string[];
   userLogged;
 
   userLoggedId!: string;
@@ -61,16 +63,16 @@ export class AddPropertyComponent {
   }
 
   /**
-   * Adds a new property (house or floor) based on the selected property type and the provided property details.
-   * If the logged-in user ID is available, it calls the corresponding method in the `rentalsService` to add the property.
-   * After adding the property, it displays a success message and navigates to the 'profile' route.
+   * Adds a new property (house or floor) based on the selected property type and the provided property details
+   * If the logged-in user ID is available, it calls the corresponding method in the `rentalsService` to add the property
+   * After adding the property, it displays a success message and navigates to the 'profile' route
    */
   addProperty(): void {
     if (this.userLoggedId) {
       if (this.tipoSeleccionado === 'house')
-        this.rentalsService.addHouse(this.autCommunity, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.outside, this.userLoggedId);
+        this.rentalsService.addHouse(this.autCommunity, this.province, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.outside, this.userLoggedId);
       else
-        this.rentalsService.addFloor(this.autCommunity, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.floor, this.userLoggedId);
+        this.rentalsService.addFloor(this.autCommunity, this.province, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.floor, this.userLoggedId);
 
       alert(this.tipoSeleccionado + ' agregado con exito');
       this.router.navigate(['profile'])
@@ -78,18 +80,18 @@ export class AddPropertyComponent {
   }
 
   /**
-   * Updates the property based on the provided property details.
-   * If an ID is available and a property type is selected, it creates a new instance of the House or Floor class with the updated data.
-   * It then calls the `updateProperty` method in the `rentalsService` to update the property.
-   * After updating the property, it displays a success message, and navigates to the 'view' route with the ID as a parameter.
+   * Updates the property based on the provided property details
+   * If an ID is available and a property type is selected, it creates a new instance of the House or Floor class with the updated data
+   * It then calls the `updateProperty` method in the `rentalsService` to update the property
+   * After updating the property, it displays a success message, and navigates to the 'view' route with the ID as a parameter
    */
   updateProperty(): void {
     var data;
     if (this.id !== null) {
       if (this.tipoSeleccionado === 'house')
-        data = new House(this.id, this.autCommunity, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.outside, this.owner, this.tipoSeleccionado);
+        data = new House(this.id, this.autCommunity, this.province, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.outside, this.owner, this.tipoSeleccionado);
       else
-        data = new Floor(this.id, this.autCommunity, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.floor, this.owner, this.tipoSeleccionado);
+        data = new Floor(this.id, this.autCommunity, this.province, this.municipality, this.street, this.title, this.description, this.numRooms, this.numBathrooms, this.numFloors, this.numTerraces, this.squareMeter, this.garage, this.price, this.floor, this.owner, this.tipoSeleccionado);
       
       this.rentalsService.updateProperty(this.id, data);
 
@@ -97,6 +99,15 @@ export class AddPropertyComponent {
 
       this.router.navigate(['/view', this.id]);
     }
+  }
+
+  /**
+   * Load the provinces of the community that the user selected
+   */
+  loadProvinces() {
+    this.rentalsService.getProvincesByCommunity(this.autCommunity).subscribe(locations => {
+      this.allProvinces = locations[0].provinces;
+    });
   }
 
   /**
@@ -110,8 +121,8 @@ export class AddPropertyComponent {
   }
 
   /**
-   * Retrieves the ID of the logged-in user and assigns it to the `userLoggedId` property.
-   * It subscribes to the `userLogged` Observable and updates the `userLoggedId` property when the user is available.
+   * Retrieves the ID of the logged-in user and assigns it to the `userLoggedId` property
+   * It subscribes to the `userLogged` Observable and updates the `userLoggedId` property when the user is available
    */
   getIdUser(): void {
     this.userLogged.subscribe(user => {
@@ -121,15 +132,16 @@ export class AddPropertyComponent {
   }
 
   /**
-   * Loads the details of the property with the provided ID.
-   * If the ID is not null, it calls the `getPropertyById` method of the `rentalsService` to retrieve the property details.
-   * After retrieving the property details, it assigns the values to the corresponding component properties.
-   * If the logged-in user is not the owner of the property, it navigates to the '/home' route.
+   * Loads the details of the property with the provided ID
+   * If the ID is not null, it calls the `getPropertyById` method of the `rentalsService` to retrieve the property details
+   * After retrieving the property details, it assigns the values to the corresponding component properties
+   * If the logged-in user is not the owner of the property, it navigates to the '/home' route
    */
   private loadProperty(): void {
     if (this.id !== null) {
       this.rentalsService.getPropertyById(this.id).subscribe(property => {
         this.autCommunity = property.autCommunity;
+        this.province = property.province;
         this.municipality = property.municipality;
         this.street = property.street;
         this.title = property.title;
@@ -144,6 +156,8 @@ export class AddPropertyComponent {
         this.owner = property.owner;
         this.scores = property.scores;
         this.tipoSeleccionado = property.type;
+
+        this.loadProvinces();
 
         if (this.owner !== this.userLoggedId) {
           this.router.navigate(['/home']);
