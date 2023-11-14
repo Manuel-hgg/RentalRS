@@ -27,7 +27,7 @@ export class RegisterComponent {
     const {name, email, password} = this.user;
 
     if (this.checkData(name, email, password)){
-      this.authService.register(name, email, password)
+      this.authService.registrarse(name, email, password)
 
       this.router.navigate(['/login']);
     }
@@ -38,7 +38,7 @@ export class RegisterComponent {
    * Then navigate to profile
    */
   registerWithGoogle() {
-    this.authService.loginWithGoogle();
+    this.authService.iniciarSesionGoogle();
 
     this.router.navigate(['profile']);
   }

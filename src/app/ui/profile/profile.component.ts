@@ -16,8 +16,8 @@ export class ProfileComponent {
     
   }
 
-  /** checks if the user is logged in, if not it redirects him to the login
-   * 
+  /** 
+   * Comprueba si el usuario esta logeado, en caso de que no lo este lo redirige a la pagina de Login
    */
   ngOnInit() {
     setTimeout(() => {
@@ -30,19 +30,18 @@ export class ProfileComponent {
   }
 
   /**
-   * Calls the logout() of the AuthService to logout the actual user
-   * Then navigate to login component
+   * Cierra la sesión del usuario
    */
-  logout(): void {
-    this.authService.logout();
+  cerrarSesion(): void {
+    this.authService.cerrarSesion();
 
     this.router.navigate(['/login']);
   }
 
   /**
-   * Navigate to add view 
+   * Navega al componente para añadir una nueva propiedad 
    */
-  addProperty(): void {
+  aniadirPropiedad(): void {
     this.router.navigate(['/property/add']);
   }
 }

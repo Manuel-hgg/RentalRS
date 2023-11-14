@@ -1,0 +1,7 @@
+<p>Provincia</p>
+<select [(ngModel)]="provinciaSeleccionada">
+    <option value="Cualquiera">Cualquiera</option>
+    <option *ngFor="let provincia of listaProvincias" [ngValue]="provincia">{{provincia}}</option>
+</select>
+
+<button (click)="filtrar()">Filtrar</button>

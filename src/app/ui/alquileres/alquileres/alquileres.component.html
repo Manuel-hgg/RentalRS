@@ -1,0 +1,10 @@
+<div class="container">
+    <app-filtros
+        [comunidadSeleccionada]="comunidadSeleccionada"
+        (emitter)="filtrar($event)"></app-filtros>
+    <app-item-alquileres
+        *ngFor="let alquiler of listaAlquileresFiltrada"
+        [alquiler]="alquiler"
+        [routerLink]="'/view/' + alquiler.idPropiedad"
+        routerLinkActivated="active"></app-item-alquileres>
+</div>

@@ -1,0 +1,8 @@
+body {
+    min-height: 80vh;
+    align-items: center;
+}
+
+.custom-form-label {
+    font-weight: bold;
+}

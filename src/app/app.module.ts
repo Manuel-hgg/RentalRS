@@ -6,7 +6,6 @@ import { AngularFireModule } from '@angular/fire/compat'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { RentalsComponent } from './ui/rentals/rentals.component';
 import { NavBarComponent } from './ui/nav-bar/nav-bar.component';
 import { NavbarFooterComponent } from './ui/navbar-footer/navbar-footer.component';
 import { AboutComponent } from './info/about/about.component';
@@ -19,12 +18,15 @@ import { RegisterComponent } from './funciones/register/register.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { AlquileresComponent } from './ui/alquileres/alquileres/alquileres.component';
+import { ItemAlquileresComponent } from './ui/alquileres/item-alquileres/item-alquileres.component';
+import { FiltrosComponent } from './ui/alquileres/filtros/filtros.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    RentalsComponent,
     NavBarComponent,
     NavbarFooterComponent,
     AboutComponent,
@@ -32,8 +34,11 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     AddPropertyComponent,
     LoginComponent,
     ProfileComponent,
+    ItemAlquileresComponent,
     ViewPropertyComponent,
-    RegisterComponent
+    RegisterComponent,
+    AlquileresComponent,
+    FiltrosComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,8 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage())
   ],
   providers: [],
   bootstrap: [AppComponent]

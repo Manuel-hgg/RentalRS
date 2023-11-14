@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rental RS</title>
-</head>
-
-<body>
-    <div class="container d-flex justify-content-center">
-        <form>
-            <div class="mb-3">
-                <label for="ubicacion" class="form-label">Elige tu destino: </label>
-                <select class="form-select" name="destino" id="destino" [(ngModel)]="communitySelected">
-                    <option value="All">Todas las ubicaciones</option>
-                    <option *ngFor="let c of allCommunities" [ngValue]="c.community">{{c.community}}</option>
-                </select>
-                <button class="btn btn-info" (click)="searchRentals()">Buscar</button>
-            </div>
-        </form>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form>
+                <div class="mb-3">
+                    <label for="ubicacion" class="custom-form-label">Elige tu destino:</label>
+                    <select class="form-select" name="destino" id="destino" [(ngModel)]="comunidadSeleccionada">
+                        <option value="All">Todas las ubicaciones</option>
+                        <option *ngFor="let c of listaComunidades" [ngValue]="c.community">{{c.community}}</option>
+                    </select>
+                    <button class="btn btn-info" (click)="buscarAlquileres()">Buscar</button>
+                </div>
+            </form>
+        </div>
     </div>
-</body>
-</html>
+</div>

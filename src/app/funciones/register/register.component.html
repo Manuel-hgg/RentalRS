@@ -1,21 +1,21 @@
 <div class="container">
     <div class="card text-center">
         <div class="card-header">
-            <b>Register</b>
+            <b>Registrarse</b>
         </div>
         <div class="card-body p-4">
             <label for="name">Name</label>
-            <input class="form-control m-2" type="text" placeholder="Ingrese su nombre" [(ngModel)]="user.name">
+            <input class="form-control m-2" type="text" placeholder="Introduce tu nombre" [(ngModel)]="user.name">
 
             <label for="email">Email</label>
-            <input class="form-control m-2" type="email" placeholder="Ingrese su email" [(ngModel)]="user.email">
+            <input class="form-control m-2" type="email" placeholder="Introduce tu correo" [(ngModel)]="user.email">
 
             <label for="password">Password</label>
-            <input class="form-control m-2" type="password" placeholder="Ingrese su password"
+            <input class="form-control m-2" type="password" placeholder="Introduce tu contraseña"
                 [(ngModel)]="user.password">
 
             <div class="d-flex flex-column align-items-center">
-                <button class="btn btn-primary btn-block m-2" (click)="register()">Registrarme</button>
+                <button class="btn btn-primary btn-block m-2" (click)="register()">Registrarse</button>
                 <button class="btn btn-info btn-block m-2" (click)="registerWithGoogle()">Registrarse con google</button>
             </div>
         </div>

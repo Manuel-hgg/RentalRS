@@ -8,6 +8,6 @@ export class Location {
                 provinces: string[]) {
         this.idLocation = idLocation;
         this.community = community;
-        this.provinces = provinces
+        this.provinces = provinces;
     }
 }

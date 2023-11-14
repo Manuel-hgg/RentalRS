@@ -18,3 +18,12 @@
 .property-buttons button {
     margin-right: 10px;
 }
+
+.star {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.star-filled {
+    color: yellow;
+}

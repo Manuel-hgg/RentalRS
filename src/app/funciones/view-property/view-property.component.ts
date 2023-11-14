@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Floor } from 'src/app/model/floor';
-import { House } from 'src/app/model/house';
-import { RentalsService } from 'src/app/services/rentals.service';
+import { Inmueble } from 'src/app/model/inmueble';
+import { AlquileresService } from 'src/app/services/alquileres.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -13,65 +12,87 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ViewPropertyComponent {
 
   userLogged;
-  property!: House | Floor;
+  inmueble!: Inmueble;
   private id: string;
-  scoreProperty!: number;
+  valoracionMedia!: number;
+
+  userId!: string;
 
   constructor(private activatedRouter: ActivatedRoute,
-              private router: Router,
-              private rentalsService: RentalsService,
-              private authService: AuthService) {
+    private router: Router,
+    private alquileresService: AlquileresService,
+    private authService: AuthService) {
     this.id = this.activatedRouter.snapshot.params['id'];
     this.userLogged = this.authService.getUserLogged();
-  }
-
-  /**
-   * Load the property with the same id of the parameter of URL
-   * Then calls private loadScore() to calculate the score of this property
-   */
-  ngOnInit() {
-    this.rentalsService.getPropertyById(this.id).subscribe(property => {
-      this.property = property;
-
-      this.loadScore();
+    this.userLogged.subscribe(user => {
+      if (user)
+        this.userId = user?.uid;
     });
   }
 
   /**
-   * Deletes the selected property.
-   * If a property is selected, it calls the `deleteProperty` method of the `rentalsService` to delete the property.
-   * After deleting the property, it navigates to the '/rentals/All' route.
+   * Carga la propiedad que tenga la id que se pasa por la URL
+   * Luego llama al metodo cargarPuntuacion() para calcular la media de las valoraciones
    */
-  deleteProperty() {
-    if (this.property) {
-      this.rentalsService.deleteProperty(this.id);
+  ngOnInit() {
+    this.alquileresService.getPropertyById(this.id).subscribe(inmueble => {
+      this.inmueble = inmueble;
 
-      this.router.navigate(['/rentals', 'All']);
+      this.cargarPuntuacion();
+    });
+  }
+
+  /**
+   * Elimina la propiedad seleccionada
+   */
+  eliminarPropiedad() {
+    if (this.inmueble) {
+      this.alquileresService.borrarPropiedad(this.id);
+
+      this.router.navigate(['/alquileres', 'All']);
     }
   }
 
   /**
-   * Navigate to the edit view of this property
+   * Navega al componente para actualizar los datos de una propiedad
    */
-  updateProperty() {
-    if (this.property)
-      this.router.navigate(['/property', 'edit', this.property.idProperty]);
+  modificarInmueble() {
+    if (this.inmueble)
+      this.router.navigate(['/property', 'edit', this.inmueble.idPropiedad]);
   }
 
   /**
-   * Calculates the average of the scores given by the rest of the users
+   * Recoge la puntuación que da un usuario al inmueble
+   * 
+   * @param valor number, puntuacion del usuario
    */
-  private loadScore() {
-    if (this.property.scores.length == 0) {
-      this.scoreProperty = 0;
+  puntuar(valor: number): void {
+    if (this.userId) {
+      console.log(valor);
+
+      const stars = document.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        index < valor ? star.classList.add('star-filled') : star.classList.remove('star-filled');
+      });
     } else {
-      for (let sc of this.property.scores) {
-        this.scoreProperty += sc;
+      alert('Debes iniciar sesión para poder puntuar un inmueble');
+    }
+  }
+
+  /**
+   * Calcula la media de las valoraciones de una propiedad
+   */
+  private cargarPuntuacion() {
+    if (this.inmueble.puntuaciones.length == 0) {
+      this.valoracionMedia = 0;
+    } else {
+      for (let sc of this.inmueble.puntuaciones) {
+        this.valoracionMedia += sc;
       }
 
-      this.scoreProperty = this.scoreProperty / this.property.scores.length;
+      this.valoracionMedia = this.valoracionMedia / this.inmueble.puntuaciones.length;
 
-      console.log(this.scoreProperty)
+      console.log(this.valoracionMedia)
     }
   }
 }

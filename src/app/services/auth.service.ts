@@ -10,24 +10,24 @@ export class AuthService {
   constructor(private afauth: AngularFireAuth) { }
 
   /**
-   * Register a new user with email and password
-   * @param name, the name of the user
-   * @param email, the email of the user
-   * @param password, the password of the user
-   * @returns A promise that resolves to the logged in user's credentials or null on error
+   * Registra un nuevo usuario con su email y contraseña
+   * @param nombre, el nombre del usuario
+   * @param email, el email del usuario
+   * @param contrasenia, la cotrasenia del usuario
+   * @returns Promise con las credenciales del usuario, o null en caso de que no se haya podido registrar
    */
-  async register(name:string, email:string, password:string){
+  async registrarse(nombre:string, email:string, contrasenia:string){
     try {
-      const credential = await this.afauth.createUserWithEmailAndPassword(email, password);
-      const user = credential.user;
+      const credenciales = await this.afauth.createUserWithEmailAndPassword(email, contrasenia);
+      const usuario = credenciales.user;
 
-      if (user) {
-        await user.updateProfile({
-          displayName: name
+      if (usuario) {
+        await usuario.updateProfile({
+          displayName: nombre
         });
       }
 
-      return credential;
+      return credenciales;
     } catch(error) {
       console.log("Error en login: " + error);
       return null;
@@ -35,14 +35,14 @@ export class AuthService {
   }
 
   /**
-   * Logs in a user with email and password.
-   * @param email, The user's email.
-   * @param password, The user's password.
-   * @returns A promise that resolves with the user's credentials upon successful login, or null in case of error.
+   * Inicia sesion con el correo y contraseña de un usuario
+   * @param email, el email del usuario
+   * @param contrasenia, la contraseña del usuario 
+   * @returns Promise con el usuario, o null en caso de que no se haya podido iniciar sesion
    */
-  async login(email:string, password:string){
+  async iniciarSesion(email:string, contrasenia:string){
     try {
-      return await this.afauth.signInWithEmailAndPassword(email, password);
+      return await this.afauth.signInWithEmailAndPassword(email, contrasenia);
     } catch(error) {
       console.log("Error en login: " + error);
       return null;
@@ -50,10 +50,10 @@ export class AuthService {
   }
 
   /**
-   * Logs in a user with Google authentication.
-   * @returns A promise that resolves with the user's credentials upon successful login, or null in case of error.
+   * Inicia sesion con la cuenta de Google del usuario
+   * @returns Promise con el usuario, o null en caso de que no se haya podido iniciar sesion
    */
-  async loginWithGoogle(){
+  async iniciarSesionGoogle(){
     try {
       return await this.afauth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     } catch(error) {
@@ -63,17 +63,17 @@ export class AuthService {
   }
 
   /**
-   * Returns an observable that represents the authentication state of the user.
-   * @returns An observable that emits the current user authentication state.
+   * Devuelve el usuario que se encuentra logeado
+   * @returns Observable con el usuario logeado
    */
   getUserLogged() {
     return this.afauth.authState;
   }
 
   /**
-   * Signs out the currently authenticated user.
+   * Cierra la sesion del usuario que estuviera conectado
    */
-  logout() {
+  cerrarSesion() {
     this.afauth.signOut();
   }
 }

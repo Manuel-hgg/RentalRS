@@ -1,30 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-</head>
-<body>
-    <div class="container" *ngIf="userLogged|async as user">
-        <div>
-            <table style="margin-bottom: 10px;">
-                <tr>
-                    <td rowspan="2">
-                        <img style="border-radius: 100%;" src="{{user.photoURL}}" *ngIf="user.photoURL">
-                        <img style="border-radius: 100%; width: 96px;" src="/assets/images/icon_no_photo.png" *ngIf="!user.photoURL">
-                    </td>
-                    <td>{{ user.displayName }}</td>
-                </tr>
-                <tr>
-                    <td>{{user.email}}</td>
-                </tr>
-            </table>
-
-            <button class="btn btn-danger" style="margin-right: 10px;" (click)="logout()">Cerrar Sesión</button>
-            <button class="btn btn-info" (click)="addProperty()">Agregar propiedad</button>
+<div class="container" *ngIf="userLogged | async as user">
+    <div class="profile-container">
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <div class="profile-image">
+                    <img src="{{ user.photoURL || '/assets/images/icon_no_foto.png' }}" class="img-fluid rounded-circle"
+                        alt="Foto de perfil">
+                </div>
+            </div>
+            <div class="col-md-9">
+                <h2>{{ user.displayName }}</h2>
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <button class="btn btn-danger" (click)="cerrarSesion()">Cerrar Sesión</button>
+                <button class="btn btn-info ms-2" (click)="aniadirPropiedad()">Agregar propiedad</button>
+            </div>
         </div>
     </div>
-</body>
-</html>
+</div>

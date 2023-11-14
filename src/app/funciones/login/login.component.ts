@@ -11,7 +11,7 @@ export class LoginComponent {
 
   user = {
     email: '',
-    password: ''
+    contrasenia: ''
   }
 
   constructor(private authService: AuthService,
@@ -20,30 +20,23 @@ export class LoginComponent {
   }
 
   /**
-   * Create a const with the data of user and log the user with the data received
-   * Then navigate to the profile
+   * Inicia sesion con los datos introducidos por el usuario
+   * Luego lo redirige a su perfil
    */
-  login() {
-    const {email, password} = this.user;
-    this.authService.login(email, password);
+  iniciarSesion() {
+    const {email, contrasenia} = this.user;
+    this.authService.iniciarSesion(email, contrasenia);
 
     this.router.navigate(['/profile']);
   }
 
   /**
-   * Login the user with the google account
-   * Then navigate to the profile
+   * Inicia sesión con Google
+   * Luego lo redirige a su perfil
    */
-  loginWithGoogle() {
-    this.authService.loginWithGoogle();
+  iniciarConGoogle() {
+    this.authService.iniciarSesionGoogle();
 
     this.router.navigate(['/profile']);
-  }
-
-  /**
-   * Logout the user 
-   */
-  logout() {
-    this.authService.logout();
   }
 }
