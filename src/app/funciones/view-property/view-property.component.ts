@@ -16,7 +16,7 @@ export class ViewPropertyComponent {
   private id: string;
   valoracionMedia!: number;
 
-  userId!: string;
+  idUsuario!: string;
 
   constructor(private activatedRouter: ActivatedRoute,
     private router: Router,
@@ -26,19 +26,26 @@ export class ViewPropertyComponent {
     this.userLogged = this.authService.getUserLogged();
     this.userLogged.subscribe(user => {
       if (user)
-        this.userId = user?.uid;
+        this.idUsuario = user?.uid;
     });
   }
 
   /**
    * Carga la propiedad que tenga la id que se pasa por la URL
    * Luego llama al metodo cargarPuntuacion() para calcular la media de las valoraciones
+   * Y en caso de que el usuario ya haya puntuado el inmueble anteriormente carga tambien su puntuacion
    */
   ngOnInit() {
-    this.alquileresService.getPropertyById(this.id).subscribe(inmueble => {
+    this.alquileresService.getInmueblePorId(this.id).subscribe(inmueble => {
       this.inmueble = inmueble;
 
-      this.cargarPuntuacion();
+      this.cargarPuntuacionMedia();
+
+      if (this.inmueble.puntuaciones[this.idUsuario]) {
+        setTimeout(() => {
+          this.colorearEstrellas(this.inmueble.puntuaciones[this.idUsuario]);
+        }, 1000);
+      }
     });
   }
 
@@ -67,32 +74,46 @@ export class ViewPropertyComponent {
    * @param valor number, puntuacion del usuario
    */
   puntuar(valor: number): void {
-    if (this.userId) {
-      console.log(valor);
+    if (this.idUsuario) {
+      this.alquileresService.aniadirPuntuacionPropiedad(this.inmueble.idPropiedad, this.idUsuario, valor);
 
-      const stars = document.querySelectorAll('.star');
-      stars.forEach((star, index) => {
-        index < valor ? star.classList.add('star-filled') : star.classList.remove('star-filled');
-      });
+      this.colorearEstrellas(valor);
     } else {
       alert('Debes iniciar sesión para poder puntuar un inmueble');
     }
   }
 
   /**
+   * Cambia el color de las estrellas a amarillo dependiendo de la puntuacion que haya dado el usuario
+   * 
+   * @param valor, el numero de estrellas que dio el usuario al inmueble
+   */
+  colorearEstrellas(valor: number): void {
+    const stars = document.querySelectorAll('.star');
+    stars.forEach((star, index) => {
+      index < valor ? star.classList.add('star-filled') : star.classList.remove('star-filled');
+    });
+  }
+
+  /**
    * Calcula la media de las valoraciones de una propiedad
    */
-  private cargarPuntuacion() {
-    if (this.inmueble.puntuaciones.length == 0) {
+  private cargarPuntuacionMedia() {
+    const puntuaciones = this.inmueble.puntuaciones;
+    const totalPuntuaciones = Object.keys(puntuaciones).length;
+
+    if (totalPuntuaciones === 0) {
       this.valoracionMedia = 0;
     } else {
-      for (let sc of this.inmueble.puntuaciones) {
-        this.valoracionMedia += sc;
+      let sumaPuntuaciones = 0;
+
+      for (const usuarioId in puntuaciones) {
+        sumaPuntuaciones += puntuaciones[usuarioId];
       }
 
-      this.valoracionMedia = this.valoracionMedia / this.inmueble.puntuaciones.length;
+      this.valoracionMedia = sumaPuntuaciones / totalPuntuaciones;
 
-      console.log(this.valoracionMedia)
+      this.valoracionMedia = Math.min(5, this.valoracionMedia);
     }
   }
 }

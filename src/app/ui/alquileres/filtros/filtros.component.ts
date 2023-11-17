@@ -11,10 +11,12 @@ export class FiltrosComponent {
   @Output() emitter = new EventEmitter<string>();
 
   listaProvincias!: string[];
-  provinciaSeleccionada!: string;
+  provinciaSeleccionada: string;
+  precioMax: number;
 
   constructor (private alquileresService: AlquileresService) {
     this.provinciaSeleccionada = 'Cualquiera';
+    this.precioMax = 0;
   }
 
   ngOnInit(): void {

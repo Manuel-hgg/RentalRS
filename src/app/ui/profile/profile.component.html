@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-md-3 text-center">
                 <div class="profile-image">
-                    <img src="{{ user.photoURL || '/assets/images/icon_no_foto.png' }}" class="img-fluid rounded-circle"
-                        alt="Foto de perfil">
+                    <img src="{{ user.photoURL }}" class="img-fluid rounded-circle" alt="Foto de perfil" *ngIf="user.photoURL">
+                    <img src="/assets/images/no_perfil.png" class="img-fluid rounded-circle" style="width: 40%;" alt="Foto de perfil" *ngIf="!user.photoURL">
                 </div>
             </div>
             <div class="col-md-9">
@@ -16,6 +16,24 @@
             <div class="col-md-12">
                 <button class="btn btn-danger" (click)="cerrarSesion()">Cerrar Sesión</button>
                 <button class="btn btn-info ms-2" (click)="aniadirPropiedad()">Agregar propiedad</button>
+            </div>
+        </div>
+        <div>
+            <h1>TUS PROPIEDADES</h1>
+            <div *ngIf="listaInmuebles.length !== 0" class="row">
+                <app-item-alquileres
+                    *ngFor="let alquiler of listaInmuebles"
+                    [alquiler]="alquiler"
+                    [routerLink]="'/view/' + alquiler.idPropiedad"
+                    routerLinkActivated="active"
+                    class="col-md-6 mb-4"
+                    style="border: 1px solid #87CEFA; border-radius: 8px;">
+                </app-item-alquileres>
+            </div>
+            <div *ngIf="listaInmuebles.length === 0" class="text-center mt-4">
+                <img src="/assets/images/no_resultados.png" class="img-fluid" alt="No hay propiedades">
+                <p class="mt-3">Parece que no tienes ninguna propiedad</p>
+                <button routerLink="/property/add" class="btn btn-primary">Sube una propiedad</button>
             </div>
         </div>
     </div>

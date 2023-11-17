@@ -30,7 +30,7 @@ export class AddPropertyComponent {
   precio!: number;
   piso!: number;
   propietario!: string;
-  valoraciones!: number[];
+  puntuaciones!: { [usuarioId: string]: number };
 
   listaComunidades!: Location[];
   listaProvincias!: string[];
@@ -84,12 +84,14 @@ export class AddPropertyComponent {
    * Actualiza los datos de una propiedad
    */
   actualizarPropiedad(): void {
-    var data;
+    var propiedadActualizada;
     if (this.id !== null) {
 
-      data = new Inmueble(this.id, this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.propietario, this.tipoSeleccionado);
+      propiedadActualizada = new Inmueble(this.id, this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.propietario, this.tipoSeleccionado);
 
-      this.alquileresService.modificarPropiedad(this.id, data);
+      propiedadActualizada.puntuaciones = this.puntuaciones;
+
+      this.alquileresService.modificarPropiedad(this.id, propiedadActualizada);
 
       alert('La propiedad ha sido actualizada');
 
@@ -141,24 +143,24 @@ export class AddPropertyComponent {
    */
   private cargarPropiedad(): void {
     if (this.id !== null) {
-      this.alquileresService.getPropertyById(this.id).subscribe(property => {
-        this.comunidadAutonoma = property.comunidadAutonoma;
-        this.provincia = property.provincia;
-        this.municipio = property.municipio;
-        this.calle = property.calle;
-        this.titulo = property.titulo;
-        this.foto = property.foto;
-        this.descripcion = property.descripcion;
-        this.numHabitaciones = property.numHabitaciones;
-        this.numBanios = property.numBanios;
-        this.numPisos = property.numPisos;
-        this.numTerrazas = property.numTerrazas
-        this.metrosCuadrados = property.metrosCuadrados;
-        this.garaje = property.garaje;
-        this.precio = property.precio;
-        this.propietario = property.propietario;
-        this.valoraciones = property.puntuaciones;
-        this.tipoSeleccionado = property.tipo;
+      this.alquileresService.getInmueblePorId(this.id).subscribe(inmueble => {
+        this.comunidadAutonoma = inmueble.comunidadAutonoma;
+        this.provincia = inmueble.provincia;
+        this.municipio = inmueble.municipio;
+        this.calle = inmueble.calle;
+        this.titulo = inmueble.titulo;
+        this.foto = inmueble.foto;
+        this.descripcion = inmueble.descripcion;
+        this.numHabitaciones = inmueble.numHabitaciones;
+        this.numBanios = inmueble.numBanios;
+        this.numPisos = inmueble.numPisos;
+        this.numTerrazas = inmueble.numTerrazas
+        this.metrosCuadrados = inmueble.metrosCuadrados;
+        this.garaje = inmueble.garaje;
+        this.precio = inmueble.precio;
+        this.propietario = inmueble.propietario;
+        this.puntuaciones = inmueble.puntuaciones;
+        this.tipoSeleccionado = inmueble.tipo;
 
         this.cargarProvincias();
 

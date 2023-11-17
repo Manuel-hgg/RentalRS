@@ -1,7 +1,37 @@
-<p>Provincia</p>
-<select [(ngModel)]="provinciaSeleccionada">
-    <option value="Cualquiera">Cualquiera</option>
-    <option *ngFor="let provincia of listaProvincias" [ngValue]="provincia">{{provincia}}</option>
-</select>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <p>Provincia</p>
+            <select class="form-select" [(ngModel)]="provinciaSeleccionada">
+                <option value="Cualquiera">Cualquiera</option>
+                <option *ngFor="let provincia of listaProvincias" [ngValue]="provincia">{{provincia}}</option>
+            </select>
+        </div>
+    </div>
 
-<button (click)="filtrar()">Filtrar</button>
+    <div class="row mt-3">
+        <div class="form-check mt-2">
+            <input type="checkbox" id="casas" name="casas" value="casas" class="form-check-input">
+            <label class="form-check-label ml-2" for="casas">Casas</label>
+        </div>
+    
+        <div class="form-check mt-2">
+            <input type="checkbox" id="pisos" name="pisos" value="pisos" class="form-check-input">
+            <label class="form-check-label ml-2" for="pisos">Pisos</label>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <label for="precioMax">Precio Máximo</label>
+            <input type="range" class="form-range" name="precioMax" min="0" max="1000" step="50" id="precioMax" [(ngModel)]="precioMax">
+            <span class="valor-seleccionado">{{ precioMax }}</span>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <button class="btn btn-primary" (click)="filtrar()">Filtrar</button>
+        </div>
+    </div>
+</div>

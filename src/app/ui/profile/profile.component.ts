@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Inmueble } from 'src/app/model/inmueble';
+import { AlquileresService } from 'src/app/services/alquileres.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -10,23 +12,25 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProfileComponent {
 
   userLogged = this.authService.getUserLogged();
+  listaInmuebles!: Inmueble[];
 
   constructor(private authService: AuthService,
-              private router: Router) {
-    
+    private alquileresService: AlquileresService,
+    private router: Router) {
+
   }
 
   /** 
    * Comprueba si el usuario esta logeado, en caso de que no lo este lo redirige a la pagina de Login
    */
   ngOnInit() {
-    setTimeout(() => {
       this.userLogged.subscribe(user => {
         if (!user) {
           this.router.navigate(['/login']);
+        } else {
+          this.cargarInmuebles(user.uid);
         }
       });
-    }, 5000);    
   }
 
   /**
@@ -43,5 +47,16 @@ export class ProfileComponent {
    */
   aniadirPropiedad(): void {
     this.router.navigate(['/property/add']);
+  }
+
+  /**
+   * Carga todos los inmuebles que pertenecen al usuario
+   * 
+   * @param idUsuario id del usuario 
+   */
+  cargarInmuebles(idUsuario: string): void {
+    this.alquileresService.getInmueblesPorPropietario(idUsuario).subscribe(inmuebles => {
+      this.listaInmuebles = inmuebles;
+    });
   }
 }

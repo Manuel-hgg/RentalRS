@@ -5,14 +5,14 @@
         </div>
         <div class="card-body p-4">
             <label for="name">Name</label>
-            <input class="form-control m-2" type="text" placeholder="Introduce tu nombre" [(ngModel)]="user.name">
+            <input class="form-control m-2" type="text" placeholder="Introduce tu nombre" [(ngModel)]="user.nombre">
 
             <label for="email">Email</label>
             <input class="form-control m-2" type="email" placeholder="Introduce tu correo" [(ngModel)]="user.email">
 
             <label for="password">Password</label>
             <input class="form-control m-2" type="password" placeholder="Introduce tu contraseña"
-                [(ngModel)]="user.password">
+                [(ngModel)]="user.contrasenia">
 
             <div class="d-flex flex-column align-items-center">
                 <button class="btn btn-primary btn-block m-2" (click)="register()">Registrarse</button>

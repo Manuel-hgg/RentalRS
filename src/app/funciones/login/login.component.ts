@@ -27,7 +27,9 @@ export class LoginComponent {
     const {email, contrasenia} = this.user;
     this.authService.iniciarSesion(email, contrasenia);
 
-    this.router.navigate(['/profile']);
+    setTimeout(() => {
+      this.router.navigate(['/profile']);
+    }, 5000);
   }
 
   /**
@@ -37,6 +39,8 @@ export class LoginComponent {
   iniciarConGoogle() {
     this.authService.iniciarSesionGoogle();
 
-    this.router.navigate(['/profile']);
+    setTimeout(() => {
+      this.router.navigate(['/profile']);
+    }, 5000);
   }
 }

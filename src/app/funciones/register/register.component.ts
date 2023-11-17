@@ -10,9 +10,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class RegisterComponent {
 
   user = {
-    name: '',
+    nombre: '',
     email: '',
-    password: ''
+    contrasenia: ''
   }
 
   constructor(private authService: AuthService,
@@ -21,40 +21,45 @@ export class RegisterComponent {
   }
 
   /**
-   * Register the user with the name, email and password of the form
+   * Registra al usuario con el nombre, email y contraseña introducidos
+   * Luego lo redirige a su perfil
    */
   register(): void {
-    const {name, email, password} = this.user;
+    const {nombre, email, contrasenia} = this.user;
 
-    if (this.checkData(name, email, password)){
-      this.authService.registrarse(name, email, password)
+    if (this.checkData(nombre, email, contrasenia)){
+      this.authService.registrarse(nombre, email, contrasenia)
 
-      this.router.navigate(['/login']);
+      setTimeout(() => {
+        this.router.navigate(['/profile']);
+      }, 5000);  
     }
   }
 
   /**
-   * Register the user with the google account
-   * Then navigate to profile
+   * Registra al usuario con google
+   * Luego lo redirige a su perfil
    */
   registerWithGoogle() {
     this.authService.iniciarSesionGoogle();
 
-    this.router.navigate(['profile']);
+    setTimeout(() => {
+      this.router.navigate(['/profile']);
+    }, 5000);  
   }
 
   /**
-   * Checks if the user entered all the data in the form
-   * If the user entered all the data it returns true
-   * If the user did not enter all the data, it returns false
+   * Comprueba si el usuario introdujo todos los datos necesarios en el formulario
+   * Si el usuario introdujo todos los datos retorna true
+   * Si el usuario no introdujo todos los datos retorna false
    * 
-   * @param name, the name of the user
-   * @param email, the email of the user
-   * @param password, the password of the user
-   * @returns True if it get all data, false if it not get all the data
+   * @param nombre, el nombre del usuario
+   * @param email, el email del usuario
+   * @param contrasenia, la constraseña del usuario
+   * @returns True si tiene todos los datos, false si no tiene todos los datos
    */
-  private checkData(name: string, email: string, password: string): boolean {
-    if (name !== '' && email !== '' && password !== '')
+  private checkData(nombre: string, email: string, contrasenia: string): boolean {
+    if (nombre !== '' && email !== '' && contrasenia !== '')
       return true;
     
     alert('Debes introducir todos los datos');

@@ -4,6 +4,7 @@
 
     <a class="navbar-brand" routerLink="profile" *ngIf="userLogged|async as user">
         <img style="width: 40px; height: 40px; border-radius: 100%;" src="{{user.photoURL}}" *ngIf="user.photoURL">
+        <img style="width: 40px; height: 40px; border-radius: 100%;" src="/assets/images/no_perfil.png" *ngIf="!user.photoURL">
         {{user.displayName}}
     </a>
 
