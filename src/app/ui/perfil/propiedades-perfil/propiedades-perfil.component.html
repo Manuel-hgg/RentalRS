@@ -1,0 +1,18 @@
+<div>
+    <h1>TUS PROPIEDADES</h1>
+    <div *ngIf="listaInmuebles !== undefined && listaInmuebles.length !== 0" class="row">
+        <app-item-alquileres
+            *ngFor="let alquiler of listaInmuebles"
+            [alquiler]="alquiler"
+            [routerLink]="'/view/' + alquiler.idPropiedad"
+            routerLinkActivated="active"
+            class="col-md-6 mb-4"
+            style="border: 1px solid #87CEFA; border-radius: 8px;">
+        </app-item-alquileres>
+    </div>
+    <div *ngIf="listaInmuebles !== undefined && listaInmuebles.length === 0" class="text-center mt-4">
+        <img src="/assets/images/no_resultados.png" class="img-fluid" alt="No hay propiedades">
+        <p class="mt-3">Parece que no tienes ninguna propiedad</p>
+        <button routerLink="/property/add" class="btn btn-primary">Sube una propiedad</button>
+    </div>
+</div>

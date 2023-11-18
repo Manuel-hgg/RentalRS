@@ -1,6 +1,7 @@
 <div class="container">
     <h1 class="text-center" *ngIf="id === null">Añadir propiedad</h1>
     <h1 class="text-center" *ngIf="id !== null">Editar propiedad</h1>
+
     <div class="text-center" *ngIf="id === null">
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="type" id="house" [(ngModel)]="tipoSeleccionado"
@@ -14,89 +15,113 @@
         </div>
     </div>
 
-    <form>
-        <div class="mb-3">
-            <label for="foto">Foto:</label>
-            <input type="file" class="form-control" name="foto" (change)="subirImagen($event)">
-        </div>
-        <div class="mb-3">
-            <label for="titulo">Título:</label>
-            <input type="text" class="form-control" name="titulo" [(ngModel)]="titulo" required>
-        </div>
-        <div class="mb-3">
-            <label for="descripcion">Descripción:</label>
-            <textarea class="form-control" name="descripcion" [(ngModel)]="descripcion" required></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="comunidadAutonoma">Comunidad Autónoma:</label>
-            <select class="form-select" name="community" [(ngModel)]="comunidadAutonoma" (change)="cargarProvincias()">
-                <option *ngFor="let c of listaComunidades" [ngValue]="c.community">{{ c.community }}</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="provincia">Provincia:</label>
-            <select class="form-select" name="provincia" [(ngModel)]="provincia">
-                <option *ngFor="let provincia of listaProvincias" [ngValue]="provincia">{{ provincia }}</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="municipio">Municipio:</label>
-            <input type="text" class="form-control" name="municipio" [(ngModel)]="municipio" required>
-        </div>
-        <div class="mb-3">
-            <label for="calle">Calle:</label>
-            <input type="text" class="form-control" name="calle" [(ngModel)]="calle" required>
-        </div>
-        <div class="mb-3">
-            <label for="numHab">Nº Habitaciones:</label>
-            <input type="number" class="form-control" name="numHab" [(ngModel)]="numHabitaciones" required>
-        </div>
-        <div class="mb-3">
-            <label for="numBanios">Nº Baños:</label>
-            <input type="number" class="form-control" name="numBanios" [(ngModel)]="numBanios" required>
-        </div>
-        <div class="mb-3">
-            <label for="numPisos">Nº Pisos:</label>
-            <input type="number" class="form-control" name="numPisos" [(ngModel)]="numPisos" required>
-        </div>
-        <div class="mb-3">
-            <label for="numTerrazas">Nº Terrazas:</label>
-            <input type="number" class="form-control" name="numTerrazas" [(ngModel)]="numTerrazas" required>
-        </div>
-        <div class="mb-3">
-            <label for="metros">Metros cuadrados:</label>
-            <input type="number" class="form-control" name="metros" [(ngModel)]="metrosCuadrados" required>
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+
+
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título:</label>
+                    <input type="text" class="form-control" name="titulo" [(ngModel)]="titulo" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <textarea class="form-control" name="descripcion" [(ngModel)]="descripcion" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="comunidadAutonoma" class="form-label">Comunidad Autónoma:</label>
+                    <select class="form-select" name="community" [(ngModel)]="comunidadAutonoma"
+                        (change)="cargarProvincias()">
+                        <option *ngFor="let c of listaComunidades" [ngValue]="c.community">{{ c.community }}</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="provincia" class="form-label">Provincia:</label>
+                    <select class="form-select" name="provincia" [(ngModel)]="provincia">
+                        <option *ngFor="let provincia of listaProvincias" [ngValue]="provincia">{{ provincia }}</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="municipio" class="form-label">Municipio:</label>
+                    <input type="text" class="form-control" name="municipio" [(ngModel)]="municipio" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="calle" class="form-label">Calle:</label>
+                    <input type="text" class="form-control" name="calle" [(ngModel)]="calle" required>
+                </div>
+
+
+            </form>
         </div>
 
-        <label for="garaje">Garaje:</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="garaje" id="siGaraje" [(ngModel)]="garaje" value="true">
-            <label class="form-check-label" for="siGaraje">Si</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="garaje" id="noGaraje" [(ngModel)]="garaje" value="false">
-            <label class="form-check-label" for="noGaraje">No</label>
-        </div>
-
-        <div class="mb-3">
-            <label for="precio">Precio:</label>
-            <div class="input-group">
-                <span class="input-group-text">€</span>
-                <input type="number" class="form-control" name="precio" [(ngModel)]="precio">
-            </div>
-        </div>
-
-        <div *ngIf="tipoSeleccionado === 'piso'">
+        <div class="col-md-6">
             <div class="mb-3">
-                <label for="piso">Planta:</label>
+                <label for="numHab" class="form-label">Nº Habitaciones:</label>
+                <input type="number" class="form-control" name="numHab" [(ngModel)]="numHabitaciones" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="numPisos" class="form-label">Nº Pisos:</label>
+                <input type="number" class="form-control" name="numPisos" [(ngModel)]="numPisos" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="metros" class="form-label">Metros cuadrados:</label>
+                <input type="number" class="form-control" name="metros" [(ngModel)]="metrosCuadrados" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="numBanios" class="form-label">Nº Baños:</label>
+                <input type="number" class="form-control" name="numBanios" [(ngModel)]="numBanios" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="numTerrazas" class="form-label">Nº Terrazas:</label>
+                <input type="number" class="form-control" name="numTerrazas" [(ngModel)]="numTerrazas" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio:</label>
+                <div class="input-group">
+                    <span class="input-group-text">€</span>
+                    <input type="number" class="form-control" name="precio" [(ngModel)]="precio">
+                </div>
+            </div>
+
+            <label for="garaje" class="form-label">Garaje:</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="garaje" id="siGaraje" [(ngModel)]="garaje"
+                    value="true">
+                <label class="form-check-label" for="siGaraje">Si</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="garaje" id="noGaraje" [(ngModel)]="garaje"
+                    value="false">
+                <label class="form-check-label" for="noGaraje">No</label>
+            </div>
+
+            <div *ngIf="tipoSeleccionado === 'piso'" class="mb-3">
+                <label for="piso" class="form-label">Planta:</label>
                 <input type="number" class="form-control" name="piso" [(ngModel)]="piso">
             </div>
-        </div>
 
-        <div class="text-center">
-            <button type="button" class="btn btn-primary" (click)="aniadirPropiedad()" *ngIf="id === null">Guardar</button>
-            <button type="button" class="btn btn-primary" (click)="actualizarPropiedad()" *ngIf="id !== null">Guardar</button>
-            <button type="button" class="btn btn-danger ms-2" (click)="cancelar()">Cancelar</button>
+            <div class="mb-3">
+                <label for="foto" class="form-label">Foto:</label>
+                <input type="file" class="form-control" name="foto" (change)="subirImagen($event)">
+                <img [src]="foto" class="img-thumbnail mt-2" style="max-width: 200px; max-height: 200px;">
+            </div>
         </div>
-    </form>
+    </div>
+
+    <div class="text-center">
+        <button type="button" class="btn btn-primary" (click)="aniadirPropiedad()" *ngIf="id === null">Guardar</button>
+        <button type="button" class="btn btn-primary" (click)="actualizarPropiedad()"
+            *ngIf="id !== null">Guardar</button>
+        <button type="button" class="btn btn-danger ms-2" (click)="cancelar()">Cancelar</button>
+    </div>
 </div>

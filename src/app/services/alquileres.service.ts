@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, where, doc, docData, setDoc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
-import { Location } from '../model/location';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { Inmueble } from '../model/inmueble';
+import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,37 +23,6 @@ export class AlquileresService {
     const inmuebles$ = collectionData(refInmuebles, { idField: 'id' });
 
     return inmuebles$ as Observable<Inmueble[]>;
-  }
-
-  /**
-   * Devuelve todas las localizaciones
-   * 
-   * @returns Observable, con todas las localizaciones
-   */
-  getComunidades(): Observable<Location[]> {
-    const refLocalizaciones = collection(this.firestore, 'locations');
-
-    const localizaciones$ = collectionData(refLocalizaciones, { idField: 'id' });
-
-    return localizaciones$ as Observable<Location[]>;
-  }
-
-  /**
-   * Devuelve todas las provincias de una comunidad
-   * 
-   * @param comunidad, comunidad para buscar
-   * @returns Observable<Location[]>, con todas las provincias
-   */
-  getProvinciasPorComunidad(comunidad: string): Observable<string[]> {
-    const refLocalizaciones = collection(this.firestore, 'locations');
-
-    const queryLocalizaciones = query(refLocalizaciones, where('community', '==', comunidad));
-
-    const localizaciones$ = collectionData(queryLocalizaciones, { idField: 'id' });
-
-    return localizaciones$.pipe(
-      map(locations => locations.map(location => location['provinces']).flat())
-    );
   }
 
   /**
@@ -180,10 +148,10 @@ export class AlquileresService {
    * @returns Promise con el inmueble eliminado
    */
   async borrarPropiedad(id: string) {
-  const refInmueble = doc(this.firestore, 'inmuebles', id);
+    const refInmueble = doc(this.firestore, 'inmuebles', id);
 
-  return deleteDoc(refInmueble);
-}
+    return deleteDoc(refInmueble);
+  }
 
   /**
    * Sube una foto al storage de Firebase
@@ -191,20 +159,20 @@ export class AlquileresService {
    * @param event, la imagen a subir
    * @returns Promise<string> que contiene la url hacia la imagen
    */
-  async subirImagen(event: any): Promise < string > {
-  const file: File = event.target.files[0];
+  async subirImagen(event: any): Promise<string> {
+    const file: File = event.target.files[0];
 
-  const refImg = ref(this.storage, `images/${file.name}`);
+    const refImg = ref(this.storage, `images/${file.name}`);
 
-  try {
-    await uploadBytes(refImg, file);
+    try {
+      await uploadBytes(refImg, file);
       const url = await getDownloadURL(refImg);
-    return url;
-  } catch(error) {
-    console.log('Error al subir la imagen:', error);
-    throw error;
+      return url;
+    } catch (error) {
+      console.log('Error al subir la imagen:', error);
+      throw error;
+    }
   }
-}
 
   /**
    * Convierte un objeto de tipo Inmueble a un objeto plano
@@ -213,13 +181,13 @@ export class AlquileresService {
    * @returns Object, el objeto transformado
    */
   private toObject(object: any): any {
-  const propiedades = Object.getOwnPropertyNames(object);
-  const flatObject: any = {};
+    const propiedades = Object.getOwnPropertyNames(object);
+    const flatObject: any = {};
 
-  propiedades.forEach(propiedad => {
-    flatObject[propiedad] = object[propiedad];
-  });
+    propiedades.forEach(propiedad => {
+      flatObject[propiedad] = object[propiedad];
+    });
 
-  return flatObject;
-}
+    return flatObject;
+  }
 }

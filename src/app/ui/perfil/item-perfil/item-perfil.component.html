@@ -1,0 +1,20 @@
+<div class="profile-container">
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <div class="profile-image">
+                <img [src]="usuario.photoURL" class="img-fluid rounded-circle" alt="Foto de perfil" *ngIf="usuario.photoURL">
+                <img src="/assets/images/no_perfil.png" class="img-fluid rounded-circle" style="width: 40%;" alt="Foto de perfil" *ngIf="!usuario.photoURL">
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h2>{{ usuario.displayName }}</h2>
+            <p>{{ usuario.email }}</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <button class="btn btn-danger" (click)="cerrarSesion()">Cerrar Sesión</button>
+            <button class="btn btn-info ms-2" (click)="aniadirPropiedad()">Agregar propiedad</button>
+        </div>
+    </div>
+</div>

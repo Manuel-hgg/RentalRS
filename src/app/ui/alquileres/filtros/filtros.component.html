@@ -1,37 +1,43 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <p>Provincia</p>
-            <select class="form-select" [(ngModel)]="provinciaSeleccionada">
-                <option value="Cualquiera">Cualquiera</option>
-                <option *ngFor="let provincia of listaProvincias" [ngValue]="provincia">{{provincia}}</option>
-            </select>
+    <form (ngSubmit)="filtrar()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="provincia" class="form-label">Provincia</label>
+                    <select class="form-select" id="provincia" [(ngModel)]="filtros.provinciaSeleccionada" name="provincia" [ngModelOptions]="{standalone: true}">
+                        <option value="Cualquiera">Cualquiera</option>
+                        <option *ngFor="let provincia of listaProvincias" [ngValue]="provincia">{{provincia}}</option>
+                    </select>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="row mt-3">
-        <div class="form-check mt-2">
-            <input type="checkbox" id="casas" name="casas" value="casas" class="form-check-input">
-            <label class="form-check-label ml-2" for="casas">Casas</label>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input type="checkbox" id="casas" name="casas" value="casas" class="form-check-input" [(ngModel)]="filtros.casas" [ngModelOptions]="{standalone: true}">
+                    <label class="form-check-label ml-2" for="casas">Casas</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="pisos" name="pisos" value="pisos" class="form-check-input" [(ngModel)]="filtros.pisos" [ngModelOptions]="{standalone: true}">
+                    <label class="form-check-label ml-2" for="pisos">Pisos</label>
+                </div>
+            </div>
         </div>
-    
-        <div class="form-check mt-2">
-            <input type="checkbox" id="pisos" name="pisos" value="pisos" class="form-check-input">
-            <label class="form-check-label ml-2" for="pisos">Pisos</label>
-        </div>
-    </div>
 
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <label for="precioMax">Precio Máximo</label>
-            <input type="range" class="form-range" name="precioMax" min="0" max="1000" step="50" id="precioMax" [(ngModel)]="precioMax">
-            <span class="valor-seleccionado">{{ precioMax }}</span>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="precioMax" class="form-label">Precio Máximo</label>
+                <input type="range" class="form-range" name="precioMax" min="0" max="1000" step="50" id="precioMax" [(ngModel)]="filtros.precioMax" [ngModelOptions]="{standalone: true}">
+                <span class="valor-seleccionado">{{ filtros.precioMax }}</span>
+            </div>
         </div>
-    </div>
 
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <button class="btn btn-primary" (click)="filtrar()">Filtrar</button>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+                <button type="button" class="btn btn-danger" (click)="borrarFiltros()">Quitar filtros</button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>

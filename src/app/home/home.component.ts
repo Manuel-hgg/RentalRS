@@ -1,7 +1,8 @@
+import { AlquileresService } from '../services/alquileres.service';
+import { LocationService } from '../services/location.service';
+import { Location } from '../model/location';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlquileresService } from '../services/alquileres.service';
-import { Location } from '../model/location';
 
 @Component({
   selector: 'app-home',
@@ -14,12 +15,13 @@ export class HomeComponent {
   comunidadSeleccionada!: string;
 
   constructor(private alquileresService: AlquileresService,
+              private locationService: LocationService,
               private router: Router) {
-    this.alquileresService.getComunidades().subscribe(localidades => {
+    this.locationService.getComunidades().subscribe(localidades => {
       this.listaComunidades = localidades;
     })
     
-    this.comunidadSeleccionada = 'All';
+    this.comunidadSeleccionada = 'todos';
   }
 
   /**

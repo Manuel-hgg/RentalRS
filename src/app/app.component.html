@@ -1,3 +1,7 @@
-<app-nav-bar></app-nav-bar>
-<router-outlet></router-outlet>
-<app-navbar-footer></app-navbar-footer>
+<div style="display: flex; flex-direction: column; min-height: 100vh;">
+    <app-nav-bar></app-nav-bar>
+    <div style="flex: 1;">
+        <router-outlet></router-outlet>
+    </div>
+    <app-navbar-footer></app-navbar-footer>
+</div>

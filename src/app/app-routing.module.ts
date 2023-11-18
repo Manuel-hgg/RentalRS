@@ -9,6 +9,7 @@ import { ProfileComponent } from './ui/profile/profile.component';
 import { ViewPropertyComponent } from './funciones/view-property/view-property.component';
 import { RegisterComponent } from './funciones/register/register.component';
 import { AlquileresComponent } from './ui/alquileres/alquileres/alquileres.component';
+import { PerfilComponent } from './ui/perfil/perfil/perfil.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,7 +20,7 @@ const routes: Routes = [
   { path: 'property/add', component: AddPropertyComponent },
   { path: 'property/edit/:id', component: AddPropertyComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile', component: PerfilComponent },
   { path: 'view/:id', component: ViewPropertyComponent },
   { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }

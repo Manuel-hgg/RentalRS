@@ -22,6 +22,9 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { AlquileresComponent } from './ui/alquileres/alquileres/alquileres.component';
 import { ItemAlquileresComponent } from './ui/alquileres/item-alquileres/item-alquileres.component';
 import { FiltrosComponent } from './ui/alquileres/filtros/filtros.component';
+import { ItemPerfilComponent } from './ui/perfil/item-perfil/item-perfil.component';
+import { PropiedadesPerfilComponent } from './ui/perfil/propiedades-perfil/propiedades-perfil.component';
+import { PerfilComponent } from './ui/perfil/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { FiltrosComponent } from './ui/alquileres/filtros/filtros.component';
     ViewPropertyComponent,
     RegisterComponent,
     AlquileresComponent,
-    FiltrosComponent
+    FiltrosComponent,
+    ItemPerfilComponent,
+    PropiedadesPerfilComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

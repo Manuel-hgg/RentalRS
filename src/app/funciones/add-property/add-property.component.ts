@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { AlquileresService } from 'src/app/services/alquileres.service';
+import { LocationService } from 'src/app/services/location.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from 'src/app/model/location';
 import { Inmueble } from 'src/app/model/inmueble';
-import { AlquileresService } from 'src/app/services/alquileres.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-add-property',
@@ -40,11 +41,11 @@ export class AddPropertyComponent {
   id!: string | null;
 
   constructor(private alquileresService: AlquileresService,
+    private locationService: LocationService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) 
-  {
-    this.alquileresService.getComunidades().subscribe(locations => {
+    private router: Router) {
+    this.locationService.getComunidades().subscribe(locations => {
       this.listaComunidades = locations;
     })
     this.userLogged = this.authService.getUserLogged();
@@ -103,7 +104,7 @@ export class AddPropertyComponent {
    * Carga las provincias de la comunidad autonoma seleccionada
    */
   cargarProvincias() {
-    this.alquileresService.getProvinciasPorComunidad(this.comunidadAutonoma).subscribe(provincias => {
+    this.locationService.getProvinciasPorComunidad(this.comunidadAutonoma).subscribe(provincias => {
       this.listaProvincias = provincias;
     });
   }
@@ -112,7 +113,7 @@ export class AddPropertyComponent {
    * Navega al componente anterior
    */
   cancelar(): void {
-    if(this.id !== null) 
+    if (this.id !== null)
       this.router.navigate(['/view', this.id]);
     else
       this.router.navigate(['/profile']);

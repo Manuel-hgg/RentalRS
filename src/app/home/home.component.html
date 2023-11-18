@@ -1,13 +1,15 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form>
+            <form class="bg-light p-4 rounded">
                 <div class="mb-3">
-                    <label for="ubicacion" class="custom-form-label">Elige tu destino:</label>
+                    <label for="ubicacion" class="form-label">Elige tu destino:</label>
                     <select class="form-select" name="destino" id="destino" [(ngModel)]="comunidadSeleccionada">
-                        <option value="All">Todas las ubicaciones</option>
+                        <option value="todos">Todas las ubicaciones</option>
                         <option *ngFor="let c of listaComunidades" [ngValue]="c.community">{{c.community}}</option>
                     </select>
+                </div>
+                <div class="d-grid">
                     <button class="btn btn-info" (click)="buscarAlquileres()">Buscar</button>
                 </div>
             </form>

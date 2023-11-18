@@ -31,41 +31,50 @@ export class AlquileresComponent {
 
   /** 
    * Carga todos los alquileres
-   * Si la comunidad seleccionada es 'All', carga todos los alquileres de todas las comunidades
-   * Si la comunidad seleccionada no es 'All', carga todos los alquileres que pertenecen unicamente a la comunidad seleccionada
+   * Si la comunidad seleccionada es 'todos', carga todos los alquileres de todas las comunidades
+   * Si la comunidad seleccionada no es 'todos', carga todos los alquileres que pertenecen unicamente a la comunidad seleccionada
    */
   private cargarListaDeAlquileres(): void {
-    if (this.comunidadSeleccionada === 'All') {
+    if (this.comunidadSeleccionada === 'todos') {
       this.suscripcionAlquileres = this.alquileresService.getInmuebles().subscribe(inmuebles => {
         this.listaAlquileres = inmuebles;
-        this.filtrar('Cualquiera');
+        this.listaAlquileresFiltrada = this.listaAlquileres;
       });
     } else {
       this.suscripcionAlquileres = this.alquileresService.getAlquileresPorComunidad(this.comunidadSeleccionada).subscribe(inmuebles => {
         this.listaAlquileres = inmuebles;
-        this.filtrar('Cualquiera');
+        this.listaAlquileresFiltrada = this.listaAlquileres;
       });
     }
   }
 
   /**
-     * Navega a la pagina anterior
-     */
-  volverAtras(): void {
-    this.route.navigate(['/home']);
-  }
-
-  /**
-   * Filtra la lista de alquileres disponibles por su provincia
+   * Filtra la lista de alquileres disponibles teniendo en cuenta todos los filtros aplicados por el usuario
    * 
-   * @param provincia 
+   * @param filtros, json con todos los filtros del usuario
    */
-  filtrar(provincia: string): void {
-    if (provincia === 'Cualquiera') {
+  filtrar(filtros: any): void {
+    if (filtros.casas && filtros.pisos || !filtros.casas && !filtros.pisos) {
       this.listaAlquileresFiltrada = this.listaAlquileres;
+    } else if (filtros.casas) {
+      this.listaAlquileresFiltrada = this.listaAlquileres.filter((inmueble: Inmueble) => {
+        return inmueble.tipo === 'casa';
+      });
     } else {
       this.listaAlquileresFiltrada = this.listaAlquileres.filter((inmueble: Inmueble) => {
-        return inmueble.provincia === provincia;
+        return inmueble.tipo === 'piso';
+      });
+    }
+
+    if (filtros.provinciaSeleccionada !== 'Cualquiera') {
+      this.listaAlquileresFiltrada = this.listaAlquileresFiltrada.filter((inmueble: Inmueble) => {
+        return inmueble.provincia === filtros.provinciaSeleccionada;
+      });
+    }
+    
+    if (filtros.precioMax !== 0 && filtros.precioMax !== 1000) {
+      this.listaAlquileresFiltrada = this.listaAlquileresFiltrada.filter((inmueble: Inmueble) => {
+        return inmueble.precio <= filtros.precioMax;
       });
     }
   }

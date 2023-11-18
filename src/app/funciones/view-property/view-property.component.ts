@@ -56,7 +56,7 @@ export class ViewPropertyComponent {
     if (this.inmueble) {
       this.alquileresService.borrarPropiedad(this.id);
 
-      this.router.navigate(['/alquileres', 'All']);
+      this.router.navigate(['/alquileres', 'todos']);
     }
   }
 
