@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Inmueble } from 'src/app/model/inmueble';
 import { AlquileresService } from 'src/app/services/alquileres.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Inmueble } from 'src/app/model/inmueble';
+import { Component } from '@angular/core';
+import firebase from 'firebase/compat';
 
 @Component({
   selector: 'app-view-property',
@@ -11,22 +12,21 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ViewPropertyComponent {
 
-  userLogged;
+  id: string;
+  usuarioLogeado!: firebase.User;
   inmueble!: Inmueble;
-  private id: string;
   valoracionMedia!: number;
-
-  idUsuario!: string;
+  comentarios!: string[][];
+  comentario: string = '';
 
   constructor(private activatedRouter: ActivatedRoute,
     private router: Router,
     private alquileresService: AlquileresService,
     private authService: AuthService) {
     this.id = this.activatedRouter.snapshot.params['id'];
-    this.userLogged = this.authService.getUserLogged();
-    this.userLogged.subscribe(user => {
-      if (user)
-        this.idUsuario = user?.uid;
+    this.authService.getUserLogged().subscribe(usuario => {
+      if (usuario)
+        this.usuarioLogeado = usuario;
     });
   }
 
@@ -41,9 +41,12 @@ export class ViewPropertyComponent {
 
       this.cargarPuntuacionMedia();
 
-      if (this.inmueble.puntuaciones[this.idUsuario]) {
+      this.comentarios = Object.values(inmueble.comentarios);
+
+      if (this.comprobarUsuario() && this.inmueble.puntuaciones[this.usuarioLogeado.uid]) {
+        console.log(this.usuarioLogeado.email);
         setTimeout(() => {
-          this.colorearEstrellas(this.inmueble.puntuaciones[this.idUsuario]);
+          this.colorearEstrellas(this.inmueble.puntuaciones[this.usuarioLogeado.uid]);
         }, 1000);
       }
     });
@@ -74,8 +77,8 @@ export class ViewPropertyComponent {
    * @param valor number, puntuacion del usuario
    */
   puntuar(valor: number): void {
-    if (this.idUsuario) {
-      this.alquileresService.aniadirPuntuacionPropiedad(this.inmueble.idPropiedad, this.idUsuario, valor);
+    if (this.comprobarUsuario()) {
+      this.alquileresService.aniadirPuntuacionPropiedad(this.inmueble.idPropiedad, this.usuarioLogeado.uid, valor);
 
       this.colorearEstrellas(valor);
     } else {
@@ -93,6 +96,24 @@ export class ViewPropertyComponent {
     stars.forEach((star, index) => {
       index < valor ? star.classList.add('star-filled') : star.classList.remove('star-filled');
     });
+  }
+
+  /**
+   * Publica un comentario en el inmueble
+   */
+  agregarComentario(): void {
+    if (this.comprobarUsuario()) {
+      if (this.comentario !== '' && this.usuarioLogeado.displayName) {
+        this.authService.agregarComentario(this.usuarioLogeado.uid, this.id, this.comentario);
+        this.alquileresService.aniadirComentarioPropiedad(this.id, this.usuarioLogeado.uid, this.usuarioLogeado.displayName, this.comentario);
+        this.comentario = '';
+        alert('El comentario se ha publicado');
+      } else {
+        alert('Debes escribir un comentario');
+      }
+    } else {
+      alert('Debes iniciar sesión para publicar un comentario');
+    }
   }
 
   /**
@@ -115,5 +136,14 @@ export class ViewPropertyComponent {
 
       this.valoracionMedia = Math.min(5, this.valoracionMedia);
     }
+  }
+
+  /**
+   * Comprueba si el usuario esta logeado o no
+   * 
+   * @returns true si esta logeado, false si no esta logeado 
+   */
+  private comprobarUsuario(): boolean {
+    return this.usuarioLogeado !== undefined ? true : false;
   }
 }

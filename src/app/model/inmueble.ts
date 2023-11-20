@@ -15,7 +15,9 @@ export class Inmueble {
     garaje: boolean;
     precio: number;
     propietario: string;
+    correoPropietario: string;
     puntuaciones: { [usuarioId: string]: number };
+    comentarios: { [usuarioId: string]: string[] };
     tipo: string;
     
     constructor(idPropiedad: string,
@@ -34,6 +36,7 @@ export class Inmueble {
         garaje: boolean,
         precio: number,
         propietario: string,
+        correoPropietario: string,
         tipo: string) 
     {
         this.idPropiedad = idPropiedad,
@@ -52,7 +55,9 @@ export class Inmueble {
         this.garaje = garaje;
         this.precio = precio;
         this.propietario = propietario;
+        this.correoPropietario = correoPropietario;
         this.puntuaciones = {};
+        this.comentarios = {};
         this.tipo = tipo;
     }
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from 'src/app/model/location';
 import { Inmueble } from 'src/app/model/inmueble';
 import { Component } from '@angular/core';
+import firebase from 'firebase/compat';
 
 @Component({
   selector: 'app-add-property',
@@ -35,9 +36,8 @@ export class AddPropertyComponent {
 
   listaComunidades!: Location[];
   listaProvincias!: string[];
-  userLogged;
 
-  usuarioLogeado!: string;
+  usuarioLogeado!: firebase.User;
   id!: string | null;
 
   constructor(private alquileresService: AlquileresService,
@@ -48,14 +48,18 @@ export class AddPropertyComponent {
     this.locationService.getComunidades().subscribe(locations => {
       this.listaComunidades = locations;
     })
-    this.userLogged = this.authService.getUserLogged();
   }
 
   ngOnInit() {
-    this.getIdUser();
-
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'] || null;
+    });
+
+    this.authService.getUserLogged().subscribe(usuario => {
+      if (usuario)
+        this.usuarioLogeado = usuario;
+      else
+        this.router.navigate(['/home']);
     });
 
     if (this.id !== null)
@@ -74,10 +78,14 @@ export class AddPropertyComponent {
       else
         tipo = 'piso';
 
-      this.alquileresService.aniadirInmueble(this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.usuarioLogeado, tipo);
+      if (this.usuarioLogeado.email) {
+        this.alquileresService.aniadirInmueble(this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.usuarioLogeado.uid, this.usuarioLogeado.email, tipo);
 
-      alert(this.tipoSeleccionado + ' agregado con exito');
-      this.router.navigate(['profile'])
+        alert(this.tipoSeleccionado + ' agregado con exito');
+        this.router.navigate(['profile']);
+      } else {
+        alert('No se ha podido subir el inmueble');
+      }
     }
   }
 
@@ -86,9 +94,8 @@ export class AddPropertyComponent {
    */
   actualizarPropiedad(): void {
     var propiedadActualizada;
-    if (this.id !== null) {
-
-      propiedadActualizada = new Inmueble(this.id, this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.propietario, this.tipoSeleccionado);
+    if (this.id !== null && this.usuarioLogeado.email) {
+      propiedadActualizada = new Inmueble(this.id, this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.propietario, this.usuarioLogeado.email, this.tipoSeleccionado);
 
       propiedadActualizada.puntuaciones = this.puntuaciones;
 
@@ -117,16 +124,6 @@ export class AddPropertyComponent {
       this.router.navigate(['/view', this.id]);
     else
       this.router.navigate(['/profile']);
-  }
-
-  /**
-   * Devuelve la id del usuario logeado
-   */
-  getIdUser(): void {
-    this.userLogged.subscribe(user => {
-      if (user)
-        this.usuarioLogeado = user.uid;
-    });
   }
 
   /**
@@ -165,7 +162,7 @@ export class AddPropertyComponent {
 
         this.cargarProvincias();
 
-        if (this.propietario !== this.usuarioLogeado) {
+        if (this.propietario !== this.usuarioLogeado.uid) {
           this.router.navigate(['/home']);
         }
       });

@@ -60,9 +60,9 @@ export class AlquileresService {
    * @param propietario, el propietario del inmueble
    * @returns el id del inmueble agregado
    */
-  async aniadirInmueble(comunidadAutonoma: string, provincia: string, municipio: string, calle: string, titulo: string, foto: string, desc: string, numHabitaciones: number, numBanios: number, numPisos: number, numTerrazas: number, metrosCuadrados: number, garaje: boolean, precio: number, propietario: string, tipo: string) {
+  async aniadirInmueble(comunidadAutonoma: string, provincia: string, municipio: string, calle: string, titulo: string, foto: string, desc: string, numHabitaciones: number, numBanios: number, numPisos: number, numTerrazas: number, metrosCuadrados: number, garaje: boolean, precio: number, propietario: string, correoPropietario: string, tipo: string) {
     let inmueble: Inmueble;
-    inmueble = new Inmueble('', comunidadAutonoma, provincia, municipio, calle, titulo, foto, desc, numHabitaciones, numBanios, numPisos, numTerrazas, metrosCuadrados, garaje, precio, propietario, tipo);
+    inmueble = new Inmueble('', comunidadAutonoma, provincia, municipio, calle, titulo, foto, desc, numHabitaciones, numBanios, numPisos, numTerrazas, metrosCuadrados, garaje, precio, propietario, correoPropietario, tipo);
     const placeRef = collection(this.firestore, 'inmuebles');
     const data = this.toObject(inmueble);
 
@@ -123,11 +123,12 @@ export class AlquileresService {
   }
 
   /**
+   * Agrega la puntuacion dada por un usuario al inmueble
    * 
    * @param idPropiedad la id de la propiedad a la que se va a añadir o actualizar la puntuacion
    * @param idUsuario el id del usuario que introdujo la nueva puntuacion
    * @param puntuacion la puntuacion introducida por el usuario
-   * @returns Promise con el inmueble actualizado
+   * @returns Promesa con el inmueble actualizado
    */
   async aniadirPuntuacionPropiedad(idPropiedad: string, idUsuario: string, puntuacion: number) {
     const refInmueble = doc(this.firestore, 'inmuebles', idPropiedad);
@@ -135,6 +136,27 @@ export class AlquileresService {
     const inmuebleData = (await getDoc(refInmueble)).data() as Inmueble;
 
     inmuebleData.puntuaciones[idUsuario] = puntuacion;
+
+    const updateData: { [key: string]: any } = inmuebleData;
+
+    return updateDoc(refInmueble, updateData);
+  }
+
+  /**
+   * Agrega un comentario echo por un usuario al inmueble
+   * 
+   * @param idPropiedad id de la propiedad a la que se agrega el comentario 
+   * @param idUsuario id del usuario que escribe el comentario
+   * @param nombreUsuario nombre del usuario que escribe el comentario
+   * @param comentario comentario escrito por el usuario
+   * @returns Promesa con el inmueble actualizado
+   */
+  async aniadirComentarioPropiedad(idPropiedad: string, idUsuario: string, nombreUsuario: string, comentario: string) {
+    const refInmueble = doc(this.firestore, 'inmuebles', idPropiedad);
+
+    const inmuebleData = (await getDoc(refInmueble)).data() as Inmueble;
+
+    inmuebleData.comentarios[idUsuario] = [nombreUsuario, comentario];
 
     const updateData: { [key: string]: any } = inmuebleData;
 

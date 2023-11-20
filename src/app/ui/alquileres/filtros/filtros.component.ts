@@ -1,4 +1,3 @@
-import { AlquileresService } from 'src/app/services/alquileres.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LocationService } from 'src/app/services/location.service';
 
@@ -19,8 +18,7 @@ export class FiltrosComponent {
     precioMax: 0
   }
 
-  constructor(private alquileresService: AlquileresService,
-    private locationService: LocationService) { }
+  constructor(private locationService: LocationService) { }
 
   ngOnInit(): void {
     this.locationService.getProvinciasPorComunidad(this.comunidadSeleccionada).subscribe(provincias => {

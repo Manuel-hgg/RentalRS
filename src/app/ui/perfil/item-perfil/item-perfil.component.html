@@ -1,9 +1,11 @@
-<div class="profile-container">
+<div class="profile-container" *ngIf="usuario !== undefined">
     <div class="row">
         <div class="col-md-3 text-center">
             <div class="profile-image">
-                <img [src]="usuario.photoURL" class="img-fluid rounded-circle" alt="Foto de perfil" *ngIf="usuario.photoURL">
-                <img src="/assets/images/no_perfil.png" class="img-fluid rounded-circle" style="width: 40%;" alt="Foto de perfil" *ngIf="!usuario.photoURL">
+                <img [src]="usuario.photoURL" class="img-fluid rounded-circle" alt="Foto de perfil"
+                    *ngIf="usuario.photoURL">
+                <img src="/assets/images/no_perfil.png" class="img-fluid rounded-circle" style="width: 40%;"
+                    alt="Foto de perfil" *ngIf="!usuario.photoURL">
             </div>
         </div>
         <div class="col-md-9">

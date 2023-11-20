@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Firestore, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import firebase from 'firebase/compat/app';
+import { Usuario } from '../model/usuario';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private afauth: AngularFireAuth) { }
+  constructor(private afauth: AngularFireAuth,
+    private firestore: Firestore) { }
 
   /**
    * Registra un nuevo usuario con su email y contraseña
@@ -68,6 +71,39 @@ export class AuthService {
    */
   getUserLogged() {
     return this.afauth.authState;
+  }
+
+  /**
+   * Comprueba si el usuario al que se va a añadir el comentario ya existe y en caso de que no exista lo crea y agrega el comentario que ha echo en un inmueble
+   * 
+   * @param idUsuario id del usuario que escribe el comentario
+   * @param idPropiedad id de la propiedad en la que escribe el comentario
+   * @param comentario comentario escrito por el usuario
+   * @returns Promesa con el nuevo comentario 
+   */
+  async agregarComentario(idUsuario: string, idPropiedad: string, comentario: string) {
+    const refUsuario = doc(this.firestore, 'usuarios', idUsuario);
+
+    const usuario = await getDoc(refUsuario);
+
+    if(usuario.exists()) {
+      const usuarioData = usuario.data() as Usuario;
+
+      usuarioData.comentarios[idPropiedad] = comentario;
+
+      const updateData: { [key: string]: any } = usuarioData;
+
+      return updateDoc(refUsuario, updateData);
+    } else {
+      const nuevoUsuario = {
+        idUsuario: idUsuario,
+        comentarios: {
+          [idPropiedad]: comentario
+        }
+      };
+
+      return setDoc(refUsuario, nuevoUsuario);
+    }
   }
 
   /**

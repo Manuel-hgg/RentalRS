@@ -12,7 +12,6 @@ import { AboutComponent } from './info/about/about.component';
 import { ContactComponent } from './info/contact/contact.component';
 import { AddPropertyComponent } from './funciones/add-property/add-property.component';
 import { LoginComponent } from './funciones/login/login.component';
-import { ProfileComponent } from './ui/profile/profile.component';
 import { ViewPropertyComponent } from './funciones/view-property/view-property.component';
 import { RegisterComponent } from './funciones/register/register.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
@@ -36,7 +35,6 @@ import { PerfilComponent } from './ui/perfil/perfil/perfil.component';
     ContactComponent,
     AddPropertyComponent,
     LoginComponent,
-    ProfileComponent,
     ItemAlquileresComponent,
     ViewPropertyComponent,
     RegisterComponent,

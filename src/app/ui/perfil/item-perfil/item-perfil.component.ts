@@ -13,10 +13,6 @@ export class ItemPerfilComponent {
   constructor(private authService: AuthService,
     private router: Router) { }
 
-    ngOnInit() {
-      console.log(this.usuario)
-    }
-
   /**
    * Cierra la sesión del usuario
    */
@@ -32,4 +28,5 @@ export class ItemPerfilComponent {
   aniadirPropiedad(): void {
     this.router.navigate(['/property/add']);
   }
+
 }
