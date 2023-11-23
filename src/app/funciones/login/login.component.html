@@ -5,15 +5,15 @@
         </div>
         <div class="card-body p-4">
             <label style="float: left;" for="email">Correo</label>
-            <input class="form-control m-2" type="email" placeholder="Introduce tu correo" [(ngModel)]="user.email">
+            <input class="form-control m-2" type="email" placeholder="Introduce tu correo" [(ngModel)]="usuario.email">
 
             <label style="float: left;" for="password">Contraseña</label>
-            <input class="form-control m-2" type="password" placeholder="Introduce tu contraseña" [(ngModel)]="user.contrasenia">
+            <input class="form-control m-2" type="password" placeholder="Introduce tu contraseña" [(ngModel)]="usuario.contrasenia">
 
             <div class="d-flex flex-column align-items-center">
                 <button class="btn btn-primary btn-block m-2" (click)="iniciarSesion()">Entrar</button>
                 <button class="btn btn-info btn-block m-2" (click)="iniciarConGoogle()">Entrar con google</button>
-                <label class="mt-2">Aún no tienes cuenta? <a routerLink="/register">Registrarse</a></label>
+                <label class="mt-2">Aún no tienes cuenta? <a routerLink="/registro">Registrarse</a></label>
             </div>
         </div>
     </div>

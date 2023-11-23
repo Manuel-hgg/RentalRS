@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Inmueble } from 'src/app/model/inmueble';
 import { Component } from '@angular/core';
 import firebase from 'firebase/compat';
+import { Reserva } from 'src/app/model/reserva';
 
 @Component({
   selector: 'app-view-property',
@@ -12,19 +13,22 @@ import firebase from 'firebase/compat';
 })
 export class ViewPropertyComponent {
 
-  id: string;
+  idPropiedad: string;
   usuarioLogeado!: firebase.User;
   inmueble!: Inmueble;
   valoracionMedia!: number;
   comentarios!: string[][];
   comentario: string = '';
 
+  fechaInicio!: any;
+  fechaFin!: any;
+
   constructor(private activatedRouter: ActivatedRoute,
     private router: Router,
     private alquileresService: AlquileresService,
     private authService: AuthService) {
-    this.id = this.activatedRouter.snapshot.params['id'];
-    this.authService.getUserLogged().subscribe(usuario => {
+    this.idPropiedad = this.activatedRouter.snapshot.params['id'];
+    this.authService.getUsuarioLogeado().subscribe(usuario => {
       if (usuario)
         this.usuarioLogeado = usuario;
     });
@@ -36,7 +40,7 @@ export class ViewPropertyComponent {
    * Y en caso de que el usuario ya haya puntuado el inmueble anteriormente carga tambien su puntuacion
    */
   ngOnInit() {
-    this.alquileresService.getInmueblePorId(this.id).subscribe(inmueble => {
+    this.alquileresService.getInmueblePorId(this.idPropiedad).subscribe(inmueble => {
       this.inmueble = inmueble;
 
       this.cargarPuntuacionMedia();
@@ -44,7 +48,6 @@ export class ViewPropertyComponent {
       this.comentarios = Object.values(inmueble.comentarios);
 
       if (this.comprobarUsuario() && this.inmueble.puntuaciones[this.usuarioLogeado.uid]) {
-        console.log(this.usuarioLogeado.email);
         setTimeout(() => {
           this.colorearEstrellas(this.inmueble.puntuaciones[this.usuarioLogeado.uid]);
         }, 1000);
@@ -57,7 +60,7 @@ export class ViewPropertyComponent {
    */
   eliminarPropiedad() {
     if (this.inmueble) {
-      this.alquileresService.borrarPropiedad(this.id);
+      this.alquileresService.borrarPropiedad(this.idPropiedad);
 
       this.router.navigate(['/alquileres', 'todos']);
     }
@@ -68,7 +71,7 @@ export class ViewPropertyComponent {
    */
   modificarInmueble() {
     if (this.inmueble)
-      this.router.navigate(['/property', 'edit', this.inmueble.idPropiedad]);
+      this.router.navigate(['/propiedad', 'editar', this.inmueble.idPropiedad]);
   }
 
   /**
@@ -104,8 +107,8 @@ export class ViewPropertyComponent {
   agregarComentario(): void {
     if (this.comprobarUsuario()) {
       if (this.comentario !== '' && this.usuarioLogeado.displayName) {
-        this.authService.agregarComentario(this.usuarioLogeado.uid, this.id, this.comentario);
-        this.alquileresService.aniadirComentarioPropiedad(this.id, this.usuarioLogeado.uid, this.usuarioLogeado.displayName, this.comentario);
+        this.authService.agregarComentario(this.usuarioLogeado.uid, this.idPropiedad, this.comentario);
+        this.alquileresService.aniadirComentarioPropiedad(this.idPropiedad, this.usuarioLogeado.uid, this.usuarioLogeado.displayName, this.comentario);
         this.comentario = '';
         alert('El comentario se ha publicado');
       } else {
@@ -114,6 +117,25 @@ export class ViewPropertyComponent {
     } else {
       alert('Debes iniciar sesión para publicar un comentario');
     }
+  }
+
+  ///////////////////////////////////////////////////////// NO FUNCIONA LA COMPROBACION
+  solicitarReserva() {
+    const solicitudReserva: Reserva = {
+      idPropiedad: this.idPropiedad,
+      idCliente: this.usuarioLogeado.uid,
+      tituloPropiedad: this.inmueble.titulo,
+      fechaInicio: this.fechaInicio,
+      fechaFin: this.fechaFin
+    }
+
+    if (this.fechaFin === undefined || this.fechaInicio === undefined) {
+      alert('Debes introducir una fecha válida')
+    } else {
+      this.alquileresService.solicitarReserva(this.inmueble.propietario,solicitudReserva);
+      alert('Se ha echo la solicitud de reserva');
+    }
+
   }
 
   /**

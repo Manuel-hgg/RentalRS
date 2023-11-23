@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent {
 
-  user = {
+  usuario = {
     nombre: '',
     email: '',
     contrasenia: ''
@@ -24,15 +24,15 @@ export class RegisterComponent {
    * Registra al usuario con el nombre, email y contraseña introducidos
    * Luego lo redirige a su perfil
    */
-  register(): void {
-    const {nombre, email, contrasenia} = this.user;
+  registrarse(): void {
+    const {nombre, email, contrasenia} = this.usuario;
 
-    if (this.checkData(nombre, email, contrasenia)){
+    if (this.comprobarDatos(nombre, email, contrasenia)){
       this.authService.registrarse(nombre, email, contrasenia)
 
       setTimeout(() => {
-        this.router.navigate(['/profile']);
-      }, 5000);  
+        this.router.navigate(['/perfil']);
+      }, 2000);  
     }
   }
 
@@ -40,12 +40,12 @@ export class RegisterComponent {
    * Registra al usuario con google
    * Luego lo redirige a su perfil
    */
-  registerWithGoogle() {
+  registrarseConGoogle() {
     this.authService.iniciarSesionGoogle();
 
     setTimeout(() => {
-      this.router.navigate(['/profile']);
-    }, 5000);  
+      this.router.navigate(['/perfil']);
+    }, 2000);  
   }
 
   /**
@@ -58,7 +58,7 @@ export class RegisterComponent {
    * @param contrasenia, la constraseña del usuario
    * @returns True si tiene todos los datos, false si no tiene todos los datos
    */
-  private checkData(nombre: string, email: string, contrasenia: string): boolean {
+  private comprobarDatos(nombre: string, email: string, contrasenia: string): boolean {
     if (nombre !== '' && email !== '' && contrasenia !== '')
       return true;
     

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Firestore, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, doc, docData, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import firebase from 'firebase/compat/app';
 import { Usuario } from '../model/usuario';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -69,8 +70,24 @@ export class AuthService {
    * Devuelve el usuario que se encuentra logeado
    * @returns Observable con el usuario logeado
    */
-  getUserLogged() {
+  getUsuarioLogeado() {
     return this.afauth.authState;
+  }
+
+  /**
+   * Devuelve un usuario por su id
+   * 
+   * @param idUsuario id del usuario a buscar
+   * @returns Promise con el usuario
+   */
+  getUsuarioPorId(idUsuario: string) {
+    const refUsuario = doc(this.firestore, 'usuarios', idUsuario);
+
+    const usuario$ = docData(refUsuario).pipe(
+      map(usuario => usuario as Usuario)
+    )
+
+    return usuario$;
   }
 
   /**
@@ -99,7 +116,8 @@ export class AuthService {
         idUsuario: idUsuario,
         comentarios: {
           [idPropiedad]: comentario
-        }
+        },
+        solicitudes: []
       };
 
       return setDoc(refUsuario, nuevoUsuario);

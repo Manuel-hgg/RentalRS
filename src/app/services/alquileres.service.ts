@@ -3,6 +3,8 @@ import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage
 import { Inmueble } from '../model/inmueble';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { Usuario } from '../model/usuario';
+import { Reserva } from '../model/reserva';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +44,7 @@ export class AlquileresService {
   }
 
   /**
-   * Adds a new house to the Firestore 'houses' collection
+   * Añade un nuevo inmueble a la BBDD
    *
    * @param comunidadAutonoma, La comunidad autonoma del inmueble
    * @param municipio, el municipio del inmueble
@@ -69,9 +71,9 @@ export class AlquileresService {
     const docRef = await addDoc(placeRef, data);
     const id = docRef.id;
     const inmuebleId: Inmueble = { ...inmueble, idPropiedad: id };
-    const docToUpdate = doc(placeRef, id);
-    const updatedData = this.toObject(inmuebleId);
-    await setDoc(docToUpdate, updatedData);
+    const docParaActualizar = doc(placeRef, id);
+    const nuevosDatos = this.toObject(inmuebleId);
+    await setDoc(docParaActualizar, nuevosDatos);
     return id;
   }
 
@@ -137,9 +139,9 @@ export class AlquileresService {
 
     inmuebleData.puntuaciones[idUsuario] = puntuacion;
 
-    const updateData: { [key: string]: any } = inmuebleData;
+    const datosNuevos: { [key: string]: any } = inmuebleData;
 
-    return updateDoc(refInmueble, updateData);
+    return updateDoc(refInmueble, datosNuevos);
   }
 
   /**
@@ -158,9 +160,9 @@ export class AlquileresService {
 
     inmuebleData.comentarios[idUsuario] = [nombreUsuario, comentario];
 
-    const updateData: { [key: string]: any } = inmuebleData;
+    const datosNuevos: { [key: string]: any } = inmuebleData;
 
-    return updateDoc(refInmueble, updateData);
+    return updateDoc(refInmueble, datosNuevos);
   }
 
   /**
@@ -197,6 +199,76 @@ export class AlquileresService {
   }
 
   /**
+   * Almacena la solicitud de reserva de un inmueble en la bbdd del propietario para que pueda decidir si acepta o no la reserva
+   * 
+   * @param idPropietario id del propietario del inmueble
+   * @param solicitudReserva Reserva con todos los datos de la solicitud 
+   */
+  async solicitarReserva(idPropietario: string, solicitudReserva: Reserva) {
+    const refPropietario = doc(this.firestore, 'usuarios', idPropietario);
+
+    const propietario = await getDoc(refPropietario);
+
+    if (propietario.exists()) {
+      const propietarioData = propietario.data() as Usuario;
+
+      propietarioData.solicitudes.push(solicitudReserva);
+
+      return updateDoc(refPropietario, { solicitudes: propietarioData.solicitudes });
+
+    } else {
+      const nuevoUsuario = {
+        idUsuario: idPropietario,
+        comentarios: {},
+        solicitudes: [solicitudReserva]
+      };
+
+      setDoc(refPropietario, nuevoUsuario);
+    }
+  }
+
+  /**
+   * Acepta o rechaza una solicitud de reserva dependiendo de lo que haya seleccionado el propietario
+   * 
+   * @param aceptada boolean, true si se acepta la reserva, false si se rechaza la reserva
+   * @param idPropietario string, id del propietario del inmueble al que se solicita la reserva
+   * @param reserva Reserva, todos los datos de la reserva
+   */
+  async aceptarORechazarReserva(aceptada: boolean, idPropietario: string, reserva: Reserva) {
+    const refPropietario = doc(this.firestore, 'usuarios', idPropietario);
+
+    const propietario = await getDoc(refPropietario);
+
+
+    if (propietario.exists()) {
+      const solicitudes = [...propietario.data()['solicitudes']];
+      const indexSolicitud = solicitudes.findIndex(solicitud => JSON.stringify(solicitud) === JSON.stringify(reserva));
+
+      if (aceptada) {
+        const refPropiedad = doc(this.firestore, 'inmuebles', reserva.idPropiedad);
+        const refCliente = doc(this.firestore, 'usuarios', reserva.idCliente);
+
+        const propiedad = await getDoc(refPropiedad);
+        const cliente = await getDoc(refCliente);
+
+        if (propiedad.exists() && cliente.exists()) {
+          const reservas = [...propiedad.data()['reservas']];
+          const alquileresRealizados = [...cliente.data()['alquileresRealizados']];
+
+          reservas.push(reserva);
+          alquileresRealizados.push(reserva);
+
+          await updateDoc(refPropiedad, { reservas: reservas});
+          await updateDoc(refCliente, { alquileresRealizados: alquileresRealizados });
+        }
+      }
+      solicitudes.splice(indexSolicitud, 1);
+
+      await updateDoc(refPropietario, { solicitudes: solicitudes });
+    }
+  }
+
+  /**
    * Convierte un objeto de tipo Inmueble a un objeto plano
    *
    * @param object, El objeto a transformar
@@ -204,12 +276,12 @@ export class AlquileresService {
    */
   private toObject(object: any): any {
     const propiedades = Object.getOwnPropertyNames(object);
-    const flatObject: any = {};
+    const objetoPlano: any = {};
 
     propiedades.forEach(propiedad => {
-      flatObject[propiedad] = object[propiedad];
+      objetoPlano[propiedad] = object[propiedad];
     });
 
-    return flatObject;
+    return objetoPlano;
   }
 }

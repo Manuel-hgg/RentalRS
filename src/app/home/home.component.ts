@@ -14,8 +14,7 @@ export class HomeComponent {
   listaComunidades!: Location[];
   comunidadSeleccionada!: string;
 
-  constructor(private alquileresService: AlquileresService,
-              private locationService: LocationService,
+  constructor(private locationService: LocationService,
               private router: Router) {
     this.locationService.getComunidades().subscribe(localidades => {
       this.listaComunidades = localidades;

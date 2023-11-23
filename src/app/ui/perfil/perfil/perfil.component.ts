@@ -21,7 +21,7 @@ export class PerfilComponent {
    * Comprueba si el usuario esta logeado, en caso de que no lo este lo redirige a la pagina de Login
    */
   ngOnInit() {
-    this.authService.getUserLogged().subscribe(usuario => {
+    this.authService.getUsuarioLogeado().subscribe(usuario => {
       this.usuarioLogeado = usuario;
 
       if (!usuario) {

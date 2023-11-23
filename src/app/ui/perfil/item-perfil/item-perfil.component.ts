@@ -26,7 +26,6 @@ export class ItemPerfilComponent {
    * Navega al componente para añadir una nueva propiedad 
    */
   aniadirPropiedad(): void {
-    this.router.navigate(['/property/add']);
+    this.router.navigate(['/propiedad/agregar']);
   }
-
 }

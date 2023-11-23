@@ -2,11 +2,11 @@
     <img src="/assets/images/logo.png" class="img-fluid navbar-logo">
     <a class="navbar-brand mx-auto text-center fs-2 fw-bold" routerLink="home">RentalRS</a>
 
-    <a class="navbar-brand" routerLink="profile" *ngIf="userLogged|async as user">
-        <img style="width: 40px; height: 40px; border-radius: 100%;" src="{{user.photoURL}}" *ngIf="user.photoURL">
-        <img style="width: 40px; height: 40px; border-radius: 100%;" src="/assets/images/no_perfil.png" *ngIf="!user.photoURL">
-        {{user.displayName}}
+    <a class="navbar-brand" routerLink="perfil" *ngIf="usuarioLogeado|async as usuario">
+        <img style="width: 40px; height: 40px; border-radius: 100%;" src="{{usuario.photoURL}}" *ngIf="usuario.photoURL">
+        <img style="width: 40px; height: 40px; border-radius: 100%;" src="/assets/images/no_perfil.png" *ngIf="!usuario.photoURL">
+        {{usuario.displayName}}
     </a>
 
-    <a class="navbar-brand" routerLink="login" *ngIf="!(userLogged|async)">LogIn</a>
+    <a class="navbar-brand" routerLink="login" *ngIf="!(usuarioLogeado|async)">LogIn</a>
 </nav>

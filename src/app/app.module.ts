@@ -24,6 +24,7 @@ import { FiltrosComponent } from './ui/alquileres/filtros/filtros.component';
 import { ItemPerfilComponent } from './ui/perfil/item-perfil/item-perfil.component';
 import { PropiedadesPerfilComponent } from './ui/perfil/propiedades-perfil/propiedades-perfil.component';
 import { PerfilComponent } from './ui/perfil/perfil/perfil.component';
+import { AlquileresPerfilComponent } from './ui/perfil/alquileres-perfil/alquileres-perfil.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { PerfilComponent } from './ui/perfil/perfil/perfil.component';
     FiltrosComponent,
     ItemPerfilComponent,
     PropiedadesPerfilComponent,
-    PerfilComponent
+    PerfilComponent,
+    AlquileresPerfilComponent
   ],
   imports: [
     BrowserModule,

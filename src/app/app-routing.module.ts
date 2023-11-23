@@ -16,12 +16,12 @@ const routes: Routes = [
   { path: 'alquileres/:comunidadAutonoma', component: AlquileresComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent},
-  { path: 'property/add', component: AddPropertyComponent },
-  { path: 'property/edit/:id', component: AddPropertyComponent },
+  { path: 'propiedad/agregar', component: AddPropertyComponent },
+  { path: 'propiedad/editar/:id', component: AddPropertyComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: PerfilComponent },
+  { path: 'perfil', component: PerfilComponent },
   { path: 'view/:id', component: ViewPropertyComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'registro', component: RegisterComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

@@ -9,7 +9,7 @@ import {  AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent {
 
-  user = {
+  usuario = {
     email: '',
     contrasenia: ''
   }
@@ -24,12 +24,12 @@ export class LoginComponent {
    * Luego lo redirige a su perfil
    */
   iniciarSesion() {
-    const {email, contrasenia} = this.user;
+    const {email, contrasenia} = this.usuario;
     this.authService.iniciarSesion(email, contrasenia);
 
     setTimeout(() => {
-      this.router.navigate(['/profile']);
-    }, 5000);
+      this.router.navigate(['/perfil']);
+    }, 2000);
   }
 
   /**
@@ -40,7 +40,7 @@ export class LoginComponent {
     this.authService.iniciarSesionGoogle();
 
     setTimeout(() => {
-      this.router.navigate(['/profile']);
-    }, 5000);
+      this.router.navigate(['/perfil']);
+    }, 2000);
   }
 }

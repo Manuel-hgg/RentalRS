@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-  userLogged = this.authService.getUserLogged();
+  usuarioLogeado = this.authService.getUsuarioLogeado();
 
   constructor(private authService: AuthService) {
     

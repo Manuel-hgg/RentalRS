@@ -1,3 +1,5 @@
+import { Reserva } from "./reserva";
+
 export class Inmueble {
     idPropiedad: string;
     comunidadAutonoma: string;
@@ -18,6 +20,7 @@ export class Inmueble {
     correoPropietario: string;
     puntuaciones: { [usuarioId: string]: number };
     comentarios: { [usuarioId: string]: string[] };
+    reservas: Reserva[];
     tipo: string;
     
     constructor(idPropiedad: string,
@@ -58,6 +61,7 @@ export class Inmueble {
         this.correoPropietario = correoPropietario;
         this.puntuaciones = {};
         this.comentarios = {};
+        this.reservas = [];
         this.tipo = tipo;
     }
 }

@@ -14,7 +14,7 @@ import firebase from 'firebase/compat';
 })
 export class AddPropertyComponent {
 
-  tipoSeleccionado: string = 'house';
+  tipoSeleccionado: string = 'casa';
 
   comunidadAutonoma!: string;
   provincia!: string;
@@ -55,7 +55,7 @@ export class AddPropertyComponent {
       this.id = params['id'] || null;
     });
 
-    this.authService.getUserLogged().subscribe(usuario => {
+    this.authService.getUsuarioLogeado().subscribe(usuario => {
       if (usuario)
         this.usuarioLogeado = usuario;
       else
@@ -73,7 +73,7 @@ export class AddPropertyComponent {
     let tipo;
 
     if (this.usuarioLogeado) {
-      if (this.tipoSeleccionado === 'house')
+      if (this.tipoSeleccionado === 'casa')
         tipo = 'casa';
       else
         tipo = 'piso';
@@ -82,7 +82,7 @@ export class AddPropertyComponent {
         this.alquileresService.aniadirInmueble(this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.usuarioLogeado.uid, this.usuarioLogeado.email, tipo);
 
         alert(this.tipoSeleccionado + ' agregado con exito');
-        this.router.navigate(['profile']);
+        this.router.navigate(['/perfil']);
       } else {
         alert('No se ha podido subir el inmueble');
       }
@@ -123,7 +123,7 @@ export class AddPropertyComponent {
     if (this.id !== null)
       this.router.navigate(['/view', this.id]);
     else
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/perfil']);
   }
 
   /**
