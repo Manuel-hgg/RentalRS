@@ -1,10 +1,9 @@
-<div *ngIf="usuario !== undefined">
-    <div *ngFor="let solicitud of usuario.solicitudes">
-        <h5 class="card-title">Propiedad: {{ solicitud.tituloPropiedad }}</h5>
-        <p class="card-text">Fecha de Inicio: {{ solicitud.fechaInicio }}</p>
-        <p class="card-text">Fecha de Fin: {{ solicitud.fechaFin }}</p>
-
-        <button (click)="aceptarORechazarReserva(true, solicitud)">Aceptar</button>
-        <button (click)="aceptarORechazarReserva(false, solicitud)">Rechazar</button>
+<div class="container">
+    <h1>Solicitudes</h1>
+    <div *ngIf="usuario !== undefined" class="mt-4">
+        <div *ngFor="let solicitud of usuario.solicitudes" class="card mb-3">
+            <app-item-solicitud-perfil [solicitud]="solicitud"
+                [idUsuario]="usuarioLogeado.uid"></app-item-solicitud-perfil>
+        </div>
     </div>
 </div>

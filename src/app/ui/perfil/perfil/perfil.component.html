@@ -1,3 +1,15 @@
-<app-item-perfil [usuario]="usuarioLogeado"></app-item-perfil>
-<app-propiedades-perfil [listaInmuebles]="listaInmuebles"></app-propiedades-perfil>
-<app-alquileres-perfil [usuarioLogeado]="usuarioLogeado"></app-alquileres-perfil>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <app-item-perfil [usuario]="usuarioLogeado"></app-item-perfil>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <app-propiedades-perfil [listaInmuebles]="listaInmuebles"></app-propiedades-perfil>
+        </div>
+        <div class="col-md-4">
+            <app-alquileres-perfil [usuarioLogeado]="usuarioLogeado"></app-alquileres-perfil>
+        </div>
+    </div>
+</div>

@@ -20,6 +20,8 @@ export class ViewPropertyComponent {
   comentarios!: string[][];
   comentario: string = '';
 
+  mostrarOcultar: string;
+
   fechaInicio!: any;
   fechaFin!: any;
 
@@ -32,6 +34,8 @@ export class ViewPropertyComponent {
       if (usuario)
         this.usuarioLogeado = usuario;
     });
+
+    this.mostrarOcultar = 'Mostrar reservas';
   }
 
   /**
@@ -90,18 +94,6 @@ export class ViewPropertyComponent {
   }
 
   /**
-   * Cambia el color de las estrellas a amarillo dependiendo de la puntuacion que haya dado el usuario
-   * 
-   * @param valor, el numero de estrellas que dio el usuario al inmueble
-   */
-  colorearEstrellas(valor: number): void {
-    const stars = document.querySelectorAll('.star');
-    stars.forEach((star, index) => {
-      index < valor ? star.classList.add('star-filled') : star.classList.remove('star-filled');
-    });
-  }
-
-  /**
    * Publica un comentario en el inmueble
    */
   agregarComentario(): void {
@@ -119,23 +111,53 @@ export class ViewPropertyComponent {
     }
   }
 
-  ///////////////////////////////////////////////////////// NO FUNCIONA LA COMPROBACION
+  /**
+   * Comprueba si se puede realizar o no la reserva
+   * En caso de que sea posible hace la solicitud al propietario de la reserva pedida por el usuario
+   */
   solicitarReserva() {
-    const solicitudReserva: Reserva = {
-      idPropiedad: this.idPropiedad,
-      idCliente: this.usuarioLogeado.uid,
-      tituloPropiedad: this.inmueble.titulo,
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin
-    }
+    if (this.comprobarUsuario()) {
+      const solicitudReserva: Reserva = {
+        idPropiedad: this.idPropiedad,
+        idCliente: this.usuarioLogeado.uid,
+        tituloPropiedad: this.inmueble.titulo,
+        fechaInicio: this.fechaInicio,
+        fechaFin: this.fechaFin
+      }
 
-    if (this.fechaFin === undefined || this.fechaInicio === undefined) {
-      alert('Debes introducir una fecha válida')
+      if (this.fechaFin === undefined || this.fechaInicio === undefined) {
+        alert('Debes introducir una fecha válida');
+      } else {
+        const fechaInicioDate = new Date(this.fechaInicio);
+        const fechaFinalDate = new Date(this.fechaFin);
+        const fechaActual = new Date();
+
+        fechaActual.setHours(0, 0, 0, 0);
+
+        if (!(fechaInicioDate > fechaFinalDate || fechaFinalDate < fechaActual || fechaInicioDate < fechaActual)) {
+          if (this.comprobarDisponibilidad(this.inmueble.reservas, fechaInicioDate, fechaFinalDate)) {
+            this.alquileresService.solicitarReserva(this.inmueble.propietario, solicitudReserva);
+            alert('Se ha echo la solicitud de reserva');
+          } else {
+            alert('La fecha seleccionada no se encuentra disponible');
+          }
+        } else {
+          alert('La fecha introducida no es valida');
+        }
+      }
     } else {
-      this.alquileresService.solicitarReserva(this.inmueble.propietario,solicitudReserva);
-      alert('Se ha echo la solicitud de reserva');
+      alert('Debes iniciar sesión para reservar un inmueble');
     }
+  }
 
+  /**
+   * Muestra u oculta la lista de reservas echas en la propiedad
+   */
+  mostrarOcultarReservas() {
+    if (this.mostrarOcultar === 'Mostrar reservas')
+      this.mostrarOcultar = 'Ocultar reservas';
+    else 
+      this.mostrarOcultar = 'Mostrar reservas';
   }
 
   /**
@@ -158,6 +180,45 @@ export class ViewPropertyComponent {
 
       this.valoracionMedia = Math.min(5, this.valoracionMedia);
     }
+  }
+
+  /**
+   * Cambia el color de las estrellas a amarillo dependiendo de la puntuacion que haya dado el usuario
+   * 
+   * @param valor, el numero de estrellas que dio el usuario al inmueble
+   */
+  private colorearEstrellas(valor: number): void {
+    const estrellas = document.querySelectorAll('.estrella');
+    estrellas.forEach((estrella, index) => {
+      index < valor ? estrella.classList.add('estrella-seleccionada') : estrella.classList.remove('estrella-seleccionada');
+    });
+  }
+
+  /**
+   * Comprueba que la fecha seleccionada para el usuario para solicitar la reserva no este ya reservada por otro usuario
+   * 
+   * @param reservas Reservas[] con todas las reservas echas en la propiedad
+   * @param fechaInicio Date de la fecha de inicio escogida por el usuario
+   * @param fechaFin Date de la fecha final escogida por el usuario
+   * @returns True si el rango de fechas esta disponible para hacer la reserva, False si no esta disponible
+   */
+  private comprobarDisponibilidad(reservas: Reserva[], fechaInicio: Date, fechaFin: Date): boolean {
+    if (this.inmueble.reservas.length > 0) {
+      for (let reserva of reservas) {
+        const fechaInicioReserva = new Date(reserva.fechaInicio);
+        const fechaFinReserva = new Date(reserva.fechaFin);
+
+        if (
+          (fechaInicio >= fechaInicioReserva && fechaInicio <= fechaFinReserva) ||
+          (fechaFin >= fechaInicioReserva && fechaFin <= fechaFinReserva) ||
+          (fechaInicio <= fechaInicioReserva && fechaFin >= fechaFinReserva)
+        ) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   /**

@@ -1,21 +1,21 @@
-.property-details {
+.propiedades-detalles {
     margin-bottom: 20px;
 }
 
-.property-details h1 {
+.propiedades-detalles h1 {
     font-size: 24px;
     font-weight: bold;
 }
 
-.property-details p {
+.propiedades-detalles p {
     margin-bottom: 10px;
 }
 
-.star {
+.estrella {
     font-size: 30px;
     cursor: pointer;
 }
 
-.star-filled {
+.estrella-seleccionada {
     color: yellow;
 }
