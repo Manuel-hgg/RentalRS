@@ -1,0 +1,9 @@
+<div class="card-body">
+    <h5 class="card-title">Propiedad: {{ reserva.tituloPropiedad }}</h5>
+    <p class="card-text">Fecha de Inicio: {{ reserva.fechaInicio | date }}</p>
+    <p class="card-text">Fecha de Fin: {{ reserva.fechaFin | date }}</p>
+
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary me-2" [routerLink]="'/view/' + reserva.idPropiedad" routerLinkActivated="active">Ver propiedad</button>
+    </div>
+</div>

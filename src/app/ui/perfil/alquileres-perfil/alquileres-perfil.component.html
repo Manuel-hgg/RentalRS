@@ -1,9 +1,33 @@
 <div class="container">
-    <h1>Solicitudes</h1>
-    <div *ngIf="usuario !== undefined" class="mt-4">
-        <div *ngFor="let solicitud of usuario.solicitudes" class="card mb-3">
-            <app-item-solicitud-perfil [solicitud]="solicitud"
-                [idUsuario]="usuarioLogeado.uid"></app-item-solicitud-perfil>
+    <div class="d-flex align-items-center">
+        <h1>Solicitudes</h1>
+        <img [src]="srcSolicitudes" (click)="mostrarOcultarSolicitudes()" class="ms-2 cursor-pointer"
+            style="width: 24px; height: 24px;">
+    </div>
+    <div *ngIf="usuario !== undefined && mostrarSolicitudes">
+        <div *ngIf="usuario.solicitudes.length !== 0">
+            <div *ngFor="let solicitud of usuario.solicitudes" class="card mb-3">
+                <app-item-solicitud-perfil [solicitud]="solicitud"
+                    [idUsuario]="usuarioLogeado.uid"></app-item-solicitud-perfil>
+            </div>
+        </div>
+        <div *ngIf="usuario.solicitudes.length === 0">
+            <p class="alert alert-info">No hay solicitudes pendientes</p>
+        </div>
+    </div>
+    <div class="d-flex align-items-center">
+        <h1>Reservas</h1>
+        <img [src]="srcReservas" (click)="mostrarOcultarReservas()" class="ms-2 cursor-pointer"
+            style="width: 24px; height: 24px;">
+    </div>
+    <div *ngIf="usuario !== undefined && mostrarReservas">
+        <div *ngIf="usuario.alquileresRealizados.length !== 0">
+            <div *ngFor="let reserva of usuario.alquileresRealizados" class="card mb-3">
+                <app-item-reserva-perfil [reserva]="reserva"></app-item-reserva-perfil>
+            </div>
+        </div>
+        <div *ngIf="usuario.alquileresRealizados.length === 0">
+            <p class="alert alert-info">No has realizado ninguna reserva</p>
         </div>
     </div>
 </div>

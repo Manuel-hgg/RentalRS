@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid mt-4">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form class="bg-light p-4 rounded">
+            <div class="bg-light p-4 rounded">
                 <div class="mb-3">
                     <label for="ubicacion" class="form-label">Elige tu destino:</label>
                     <select class="form-select" name="destino" id="destino" [(ngModel)]="comunidadSeleccionada">
@@ -9,10 +9,76 @@
                         <option *ngFor="let c of listaComunidades" [ngValue]="c.community">{{c.community}}</option>
                     </select>
                 </div>
-                <div class="d-grid">
+                <div class="d-flex justify-content-center">
                     <button class="btn btn-info" (click)="buscarAlquileres()">Buscar</button>
                 </div>
-            </form>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="text-center mx-5">
+        <div>
+            <table class="table">
+                <tr>
+                    <td>
+                        <h2 class="vacaciones-text">Vacaciones en la montaña</h2>
+                    </td>
+                    <td rowspan="2"><img src="assets/images/casa_montania.jpg" alt="Casa Montaña"
+                            class="vacaciones-img"></td>
+                </tr>
+                <tr>
+                    <p class="vacaciones-description">Experimenta la serenidad y la belleza natural de las montañas en
+                        tus próximas vacaciones. Sumérgete en la fresca brisa alpina y admira paisajes impresionantes
+                        mientras te relajas en nuestras acogedoras cabañas. Con opciones para todos los gustos, desde
+                        emocionantes rutas de senderismo hasta tranquilos retiros junto a la chimenea, nuestras propiedades en la
+                        montaña ofrecen una escapada perfecta para recargar energías.</p>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table class="table">
+                <tr>
+                    <td rowspan="2">
+                        <img src="assets/images/casa_playa.jpg" alt="Casa Playa" class="vacaciones-img">
+                    </td>
+                    <td>
+                        <h2 class="vacaciones-text">Vacaciones en la playa</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="vacaciones-description">Sumérgete en la serenidad de la costa y deja que las olas te
+                            acaricien los pies. Disfruta del sol radiante, la suave arena y las vistas espectaculares en
+                            tus vacaciones en la playa. Nuestras propiedades frente al mar ofrecen la combinación
+                            perfecta de relajación y diversión. Desde emocionantes deportes acuáticos hasta tranquilas caminatas al atardecer,
+                            nuestras opciones de alquiler vacacional en la playa son el destino ideal para escapar de la rutina diaria.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table class="table">
+                <tr>
+                    <td>
+                        <h2 class="vacaciones-text">Vacaciones en la ciudad</h2>
+                    </td>
+                    <td rowspan="2"><img src="assets/images/vacaciones_ciudad.jpg" alt="Ciudad" class="vacaciones-img">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="vacaciones-description">Descubre la emoción y la vitalidad de la vida urbana en tus
+                            próximas vacaciones. Nuestras propiedades en el corazón de la ciudad te brindan acceso inigualable a
+                            la cultura, la gastronomía y las atracciones. Desde paseos por las bulliciosas calles llenas de
+                            tiendas hasta explorar los lugares históricos, nuestras opciones de alquiler vacacional en la ciudad
+                            ofrecen la combinación perfecta de comodidad y exploración. Experimenta la energía única de la
+                            ciudad y sumérgete en una escapada llena de descubrimientos.</p>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

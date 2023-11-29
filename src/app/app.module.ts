@@ -26,6 +26,7 @@ import { PropiedadesPerfilComponent } from './ui/perfil/propiedades-perfil/propi
 import { PerfilComponent } from './ui/perfil/perfil/perfil.component';
 import { AlquileresPerfilComponent } from './ui/perfil/alquileres-perfil/alquileres-perfil.component';
 import { ItemSolicitudPerfilComponent } from './ui/perfil/item-solicitud-perfil/item-solicitud-perfil.component';
+import { ItemReservaPerfilComponent } from './ui/perfil/item-reserva-perfil/item-reserva-perfil.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ItemSolicitudPerfilComponent } from './ui/perfil/item-solicitud-perfil/
     PropiedadesPerfilComponent,
     PerfilComponent,
     AlquileresPerfilComponent,
-    ItemSolicitudPerfilComponent
+    ItemSolicitudPerfilComponent,
+    ItemReservaPerfilComponent
   ],
   imports: [
     BrowserModule,

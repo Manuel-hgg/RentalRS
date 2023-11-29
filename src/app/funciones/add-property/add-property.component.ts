@@ -6,6 +6,7 @@ import { Location } from 'src/app/model/location';
 import { Inmueble } from 'src/app/model/inmueble';
 import { Component } from '@angular/core';
 import firebase from 'firebase/compat';
+import { Reserva } from 'src/app/model/reserva';
 
 @Component({
   selector: 'app-add-property',
@@ -33,6 +34,8 @@ export class AddPropertyComponent {
   piso!: number;
   propietario!: string;
   puntuaciones!: { [usuarioId: string]: number };
+  comentarios!: { [usuarioId: string]: string[] };
+  reservas!: Reserva[];
 
   listaComunidades!: Location[];
   listaProvincias!: string[];
@@ -98,6 +101,8 @@ export class AddPropertyComponent {
       propiedadActualizada = new Inmueble(this.id, this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.propietario, this.usuarioLogeado.email, this.tipoSeleccionado);
 
       propiedadActualizada.puntuaciones = this.puntuaciones;
+      propiedadActualizada.comentarios = this.comentarios;
+      propiedadActualizada.reservas = this.reservas;
 
       this.alquileresService.modificarPropiedad(this.id, propiedadActualizada);
 
@@ -158,6 +163,8 @@ export class AddPropertyComponent {
         this.precio = inmueble.precio;
         this.propietario = inmueble.propietario;
         this.puntuaciones = inmueble.puntuaciones;
+        this.comentarios = inmueble.comentarios;
+        this.reservas = inmueble.reservas;
         this.tipoSeleccionado = inmueble.tipo;
 
         this.cargarProvincias();

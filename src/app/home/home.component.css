@@ -3,6 +3,27 @@ body {
     align-items: center;
 }
 
-.custom-form-label {
+table {
+    border: 1px solid turquoise;
+    border-collapse: separate;
+    border-radius: 20px;
+}
+
+.vacaciones-text {
+    font-size: 1.5em;
     font-weight: bold;
+    text-align: left;
+}
+
+.vacaciones-description {
+    text-align: justify;
+    margin-left: 5px;
+    max-width: 90%;
+}
+
+.vacaciones-img {
+    width: 70%;
+    max-height: 50%;
+    border-radius: 15px; 
+    margin-bottom: 20px;
 }
