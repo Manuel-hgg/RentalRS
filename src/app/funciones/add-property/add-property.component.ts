@@ -82,10 +82,14 @@ export class AddPropertyComponent {
         tipo = 'piso';
 
       if (this.usuarioLogeado.email) {
-        this.alquileresService.aniadirInmueble(this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.usuarioLogeado.uid, this.usuarioLogeado.email, tipo);
+        if (this.comprobarDatos()) {
+          this.alquileresService.aniadirInmueble(this.comunidadAutonoma, this.provincia, this.municipio, this.calle, this.titulo, this.foto, this.descripcion, this.numHabitaciones, this.numBanios, this.numPisos, this.numTerrazas, this.metrosCuadrados, this.garaje, this.precio, this.usuarioLogeado.uid, this.usuarioLogeado.email, tipo);
 
-        alert(this.tipoSeleccionado + ' agregado con exito');
-        this.router.navigate(['/perfil']);
+          alert(this.tipoSeleccionado + ' agregado con exito');
+          this.router.navigate(['/perfil']);
+        } else {
+          alert('Debes introducir todos los datos');
+        }
       } else {
         alert('No se ha podido subir el inmueble');
       }
@@ -139,6 +143,18 @@ export class AddPropertyComponent {
     this.alquileresService.subirImagen(event).then(url => {
       this.foto = url;
     });
+  }
+
+  /**
+   * Comprueba que el usuario haya introducido todos los datos necesarios
+   * @returns True si el usuario introdujo todos los datos, false si faltan datos
+   */
+  private comprobarDatos(): boolean {
+    if (this.comunidadAutonoma === undefined || this.provincia === undefined || this.municipio === undefined || this.calle === undefined || this.titulo === undefined || this.foto === undefined
+      || this.descripcion === undefined || !this.numHabitaciones || !this.numBanios || !this.numPisos || !this.metrosCuadrados) {
+      return false;
+    }
+    return true;
   }
 
   /**

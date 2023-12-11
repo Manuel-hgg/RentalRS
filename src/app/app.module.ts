@@ -11,9 +11,9 @@ import { NavbarFooterComponent } from './ui/navbar-footer/navbar-footer.componen
 import { AboutComponent } from './info/about/about.component';
 import { ContactComponent } from './info/contact/contact.component';
 import { AddPropertyComponent } from './funciones/add-property/add-property.component';
-import { LoginComponent } from './funciones/login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { ViewPropertyComponent } from './funciones/view-property/view-property.component';
-import { RegisterComponent } from './funciones/register/register.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';

@@ -4,9 +4,9 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './info/about/about.component';
 import { ContactComponent } from './info/contact/contact.component';
 import { AddPropertyComponent } from './funciones/add-property/add-property.component';
-import { LoginComponent } from './funciones/login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { ViewPropertyComponent } from './funciones/view-property/view-property.component';
-import { RegisterComponent } from './funciones/register/register.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { AlquileresComponent } from './ui/alquileres/alquileres/alquileres.component';
 import { PerfilComponent } from './ui/perfil/perfil/perfil.component';
 

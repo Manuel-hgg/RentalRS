@@ -18,7 +18,7 @@ export class AuthService {
    * @param nombre, el nombre del usuario
    * @param email, el email del usuario
    * @param contrasenia, la cotrasenia del usuario
-   * @returns Promise con las credenciales del usuario, o null en caso de que no se haya podido registrar
+   * @returns Promise 
    */
   async registrarse(nombre:string, email:string, contrasenia:string){
     try {
@@ -34,7 +34,7 @@ export class AuthService {
       return credenciales;
     } catch(error) {
       console.log("Error en login: " + error);
-      return null;
+      throw error;
     }
   }
 
